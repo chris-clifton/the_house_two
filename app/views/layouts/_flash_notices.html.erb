@@ -1,0 +1,8 @@
+<div id="notices" class="my-2 bg-white">
+  <% if notice %>
+    <div class="notice border-container-green"><span class="text-green-900"><i class="fas fa-bell"></i></span><span class="ml-2 text-gray-700"><%= notice %></span></div>
+  <% end %>
+  <% if alert %>
+    <div class="alert border-container-red"><span class="text-red-900"><i class="fas fa-exclamation-circle fa-lg"></i></span><span class="ml-2 text-gray-700"><%= alert %></span></div>
+  <% end %>
+</div>

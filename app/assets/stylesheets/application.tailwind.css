@@ -1,0 +1,92 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+
+@layer components {
+  .btn-primary {
+    @apply py-2 px-4 bg-blue-200;
+  }
+}
+
+*/
+
+body {
+  font-family: "Open Sans", sans-serif;
+}
+
+/* Form styling */
+form div.field, div.actions {
+  @apply mb-2;
+}
+
+.label {
+  @apply pl-1 block text-sm font-medium text-gray-700;
+}
+
+.input {
+  @apply w-full px-2 py-1 border-solid border border-gray-300 rounded-lg shadow-sm;
+}
+
+.form-select {
+  @apply cursor-pointer w-full px-2 py-1 border-solid border border-gray-300 rounded-lg shadow-sm;
+}
+
+/* Button styling */
+
+.btn {
+  @apply inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm  focus:outline-none focus:ring-2 focus:ring-offset-2;
+}
+
+.btn-blue {
+  @apply text-white bg-indigo-600 hover:bg-indigo-700 focus:ring-indigo-500;
+}
+
+.btn-green {
+  @apply text-white bg-green-600 hover:bg-green-700 focus:ring-green-500;
+}
+
+.btn-red {
+  @apply text-white bg-red-600 hover:bg-red-700 focus:ring-red-500;
+}
+
+.btn-yellow {
+  @apply text-white bg-yellow-600 hover:bg-yellow-700 focus:ring-yellow-500;
+}
+
+.btn-gray {
+  @apply text-white bg-gray-400 hover:bg-gray-700 focus:ring-gray-500;
+}
+
+/* Container styling */
+
+.border-container-red {
+  @apply bg-red-200 py-1 px-2 rounded border border-red-600;
+}
+
+.border-container-blue {
+  @apply bg-blue-100 py-1 px-2 rounded border border-blue-500;
+}
+
+.border-container-green {
+  @apply bg-green-200 py-1 px-2 rounded border border-green-600;
+}
+
+.border-container-yellow {
+  @apply bg-yellow-200 py-1 px-2 rounded border border-yellow-600;
+}
+
+.border-container {
+  @apply py-1 px-2 rounded border border-gray-400 bg-white;
+}
+
+/* Nav styling */
+
+.active-nav-bar-element {
+  @apply bg-gray-900 text-white flex items-center px-2 py-2 text-sm font-medium rounded-md;
+}
+
+.inactive-nav-bar-element {
+  @apply text-gray-300 hover:bg-gray-700 hover:text-white flex items-center px-2 py-2 text-sm font-medium rounded-md;
+}

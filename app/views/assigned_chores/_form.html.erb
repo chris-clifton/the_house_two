@@ -1,0 +1,45 @@
+<div class="max-w-xl">
+  <%= form_with(model: assigned_chore) do |form| %>
+    <% if assigned_chore.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(assigned_chore.errors.count, "error") %> prohibited this assigned_chore from being saved:</h2>
+
+        <ul>
+          <% assigned_chore.errors.each do |error| %>
+            <li><%= error.full_message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="field">
+      <%= form.label :user_id, class: "label" %>
+      <%= form.select :user_id, options_for_select(@users.collect { |u| [u.name, u.id] }, assigned_chore.id), {}, class: "form-select" %>
+    </div>
+
+    <div class="field">
+      <%= form.label :chore_id, class: "label" %>
+      <%= form.select :chore_id, options_for_select(@chores.collect { |u| [u.name, u.id] }, assigned_chore.id), {}, class: "form-select" %>
+
+    </div>
+
+    <div class="field">
+      <%= form.label :reward, class: "label" %>
+      <%= form.number_field :reward, class: "input" %>
+    </div>
+
+    <!-- Consequence builder -->
+    <%= form.fields_for :consequence do |consequence_builder| %>
+
+    <% end %>
+
+    <div class="field">
+      <%= form.label :due_date, class: "label" %>
+      <%= form.date_field :due_date, class: "input"%>
+    </div>
+
+    <div class="actions mt-4 text-right">
+      <%= form.submit class: "btn btn-green cursor-pointer" %>
+    </div>
+  <% end %>
+</div>

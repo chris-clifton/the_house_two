@@ -1,0 +1,31 @@
+<div class="max-w-2xl">
+  <%= form_with(model: chore) do |form| %>
+    <% if chore.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(chore.errors.count, "error") %> prohibited this chore from being saved:</h2>
+
+        <ul>
+          <% chore.errors.each do |error| %>
+            <li><%= error.full_message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="field">
+      <%= form.label :name, class: "label" %>
+      <%= form.text_field :name, class: "input", placeholder: "Dishes, Walk the dog, etc." %>
+    </div>
+
+    <div class="field">
+      <%= form.label :description, class: "label" %>
+      <%= form.text_area :description, class: "input", rows: 5, placeholder: "Describe the chore and all necessary steps to complete it" %>
+    </div>
+
+    <!-- TODO: Nested form to create the chore with an assigned user -->
+
+    <div class="actions mt-4 text-right">
+      <%= form.submit class: "btn btn-green" %>
+    </div>
+  <% end %>
+</div>

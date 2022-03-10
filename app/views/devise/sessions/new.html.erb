@@ -1,0 +1,37 @@
+<div class="min-h-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+  <div class="max-w-md w-full space-y-8">
+    <div>
+      <%= inline_svg_tag("the-house.svg", size: "128 * 128", class: "mx-auto")%>
+      <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-700">Sign in</h2>
+    </div>
+    <div>
+      <%= form_for(resource, as: resource_name, url: session_path(resource_name), class: "mt-8 space-y-6") do |f| %>
+        <div class="rounded-md shadow-sm -space-y-px mb-4">
+          <div>
+            <%= f.label :email, class: "sr-only" %>
+            <%= f.email_field :email, class: "appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm", placeholder: "Email" %>
+          </div>
+          <div class="field">
+            <%= f.label :password, class: "sr-only" %>
+            <%= f.password_field :password, autocomplete: "current-password", class: "appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm", placeholder: "Password" %>
+          </div>
+        </div>
+
+        <div class="flex items-center justify-between mb-4">
+          <div class="flex items-center">
+            <% if devise_mapping.rememberable? %>
+              <%= f.check_box :remember_me, class: "h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded" %>
+              <%= f.label :remember_me, class: "ml-2 block text-sm text-gray-600" %>
+            <% end %>
+          </div>
+
+  
+        </div>
+
+        <div>
+          <%= f.submit "Sign in", class: "group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 cursor-pointer" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
