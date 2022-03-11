@@ -3,8 +3,10 @@
 # AssignedChore class
 class AssignedChore < ApplicationRecord
   belongs_to :user
-  belongs_to :chore
-  has_one :consequence, through: :assigned_chore_consequences
+  has_one :chore
+  has_one :reward
+  has_one :consequence
 
   accepts_nested_attributes_for :consequence
+  accepts_nested_attributes_for :reward
 end

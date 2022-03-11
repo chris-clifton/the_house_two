@@ -22,7 +22,8 @@ class AssignedChoresController < ApplicationController
     @assigned_chore = AssignedChore.new
     @users      = User.all
     @chores     = Chore.all
-    @assigned_chore.consequence.build
+    @assigned_chore.build_consequence
+    @assigned_chore.build_reward
   end
 
   # GET /assigned_chores/1/edit

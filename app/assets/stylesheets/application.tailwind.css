@@ -14,6 +14,7 @@
 
 body {
   font-family: "Open Sans", sans-serif;
+  @apply text-gray-700;
 }
 
 /* Form styling */
@@ -26,7 +27,7 @@ form div.field, div.actions {
 }
 
 .input {
-  @apply w-full px-2 py-1 border-solid border border-gray-300 rounded-lg shadow-sm;
+  @apply w-full px-2 py-1 text-gray-700 border-solid border border-gray-300 rounded-lg shadow-sm;
 }
 
 .form-select {

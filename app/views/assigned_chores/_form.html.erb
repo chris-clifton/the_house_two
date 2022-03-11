@@ -12,31 +12,79 @@
       </div>
     <% end %>
 
-    <div class="field">
-      <%= form.label :user_id, class: "label" %>
-      <%= form.select :user_id, options_for_select(@users.collect { |u| [u.name, u.id] }, assigned_chore.id), {}, class: "form-select" %>
+    <div class="border-b">
+      <div>
+        <h3 class="text-lg leading-6 font-medium text-gray-900">Chore and User Details</h3>
+        <p class="mt-1 text-sm text-gray-500">Select a chore and user (required) and optionally add a due date.</p>
+      </div>
+
+      <div class="field mt-6">
+        <%= form.label :user_id, class: "label" %>
+        <%= form.select :user_id, options_for_select(@users.collect { |u| [u.name, u.id] }, assigned_chore.id), {}, class: "form-select" %>
+      </div>
+
+      <div class="field mt-6">
+        <%= form.label :chore_id, class: "label" %>
+        <%= form.select :chore_id, options_for_select(@chores.collect { |u| [u.name, u.id] }, assigned_chore.id), {}, class: "form-select" %>
+      </div>
+
+      <div class="field mt-6">
+        <%= form.label :due_date, class: "label" %>
+        <%= form.date_field :due_date, class: "input"%>
+      </div>
     </div>
 
-    <div class="field">
-      <%= form.label :chore_id, class: "label" %>
-      <%= form.select :chore_id, options_for_select(@chores.collect { |u| [u.name, u.id] }, assigned_chore.id), {}, class: "form-select" %>
+    <!-- Reward builder -->
+    <%= form.fields_for :reward do |reward_builder| %>
+      <div class="border-b">
+        <div class="mt-6">
+          <h3 class="text-lg leading-6 font-medium text-gray-900">Reward</h3>
+          <p class="mt-1 text-sm text-gray-500">Select the reward amount and type for successfully completing the chore.</p>
+        </div>
 
-    </div>
+        <div class="flex justify-between">
+          <div class="field mt-6">
+            <%= reward_builder.label :value, class: "label" %>
+            <%= reward_builder.number_field :value, class: "input" %>
+          </div>
 
-    <div class="field">
-      <%= form.label :reward, class: "label" %>
-      <%= form.number_field :reward, class: "input" %>
-    </div>
+          <div class="field mt-6">
+            <!-- TODO: turn this into a select -->
+            <%= reward_builder.label :type, class: "label" %>
+            <%= reward_builder.number_field :category, class: "input" %>
+          </div>
+        </div>
+      </div>
+    <% end %>
 
     <!-- Consequence builder -->
     <%= form.fields_for :consequence do |consequence_builder| %>
+      <div class="border-b">
+        <div class="mt-6">
+          <h3 class="text-lg leading-6 font-medium text-gray-900">Consequence</h3>
+          <p class="mt-1 text-sm text-gray-500">Select the consequence amount, duration, and type for not completing the chore.</p>
+        </div>
 
+        <div class="flex justify-between">
+          <div class="field mt-6">
+            <%= consequence_builder.label :value, class: "label" %>
+            <%= consequence_builder.number_field :value, class: "input" %>
+          </div>
+
+          <div class="field mt-6">
+            <!-- TODO: turn this into a select -->
+            <%= consequence_builder.label :duration, class: "label" %>
+            <%= consequence_builder.text_field :duration, class: "input" %>
+          </div>
+
+          <div class="field mt-6">
+            <!-- TODO: turn this into a select -->
+            <%= consequence_builder.label :type, class: "label" %>
+            <%= consequence_builder.text_field :category, class: "input" %>
+          </div>
+        </div>
+      </div>
     <% end %>
-
-    <div class="field">
-      <%= form.label :due_date, class: "label" %>
-      <%= form.date_field :due_date, class: "input"%>
-    </div>
 
     <div class="actions mt-4 text-right">
       <%= form.submit class: "btn btn-green cursor-pointer" %>

@@ -10,23 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_03_07_030153) do
+ActiveRecord::Schema[7.0].define(version: 2022_03_11_205247) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-
-  create_table "assigned_chore_consequences", force: :cascade do |t|
-    t.bigint "assigned_chore_id", null: false
-    t.bigint "consequence_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["assigned_chore_id"], name: "index_assigned_chore_consequences_on_assigned_chore_id"
-    t.index ["consequence_id"], name: "index_assigned_chore_consequences_on_consequence_id"
-  end
 
   create_table "assigned_chores", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.bigint "chore_id", null: false
-    t.integer "reward", default: 0, null: false
     t.boolean "completed", default: false, null: false
     t.boolean "failed", default: false, null: false
     t.datetime "due_date", precision: nil
@@ -45,23 +35,23 @@ ActiveRecord::Schema[7.0].define(version: 2022_03_07_030153) do
     t.index ["name"], name: "index_chores_on_name", unique: true
   end
 
-  create_table "consequence_types", force: :cascade do |t|
-    t.string "name", default: "", null: false
-    t.integer "unit", default: 0, null: false
+  create_table "consequences", force: :cascade do |t|
+    t.bigint "assigned_chore_id", null: false
+    t.integer "value", default: 0, null: false
+    t.integer "duration", default: 0, null: false
+    t.integer "category", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["assigned_chore_id"], name: "index_consequences_on_assigned_chore_id"
   end
 
-  create_table "consequences", force: :cascade do |t|
-    t.bigint "user_id", null: false
-    t.integer "value", null: false
-    t.bigint "consequence_type_id", null: false
-    t.boolean "completed", default: false, null: false
-    t.text "note"
+  create_table "rewards", force: :cascade do |t|
+    t.bigint "assigned_chore_id", null: false
+    t.integer "value", default: 0, null: false
+    t.integer "category", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["consequence_type_id"], name: "index_consequences_on_consequence_type_id"
-    t.index ["user_id"], name: "index_consequences_on_user_id"
+    t.index ["assigned_chore_id"], name: "index_rewards_on_assigned_chore_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -81,10 +71,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_03_07_030153) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
-  add_foreign_key "assigned_chore_consequences", "assigned_chores"
-  add_foreign_key "assigned_chore_consequences", "consequences"
   add_foreign_key "assigned_chores", "chores"
   add_foreign_key "assigned_chores", "users"
-  add_foreign_key "consequences", "consequence_types"
-  add_foreign_key "consequences", "users"
+  add_foreign_key "consequences", "assigned_chores"
+  add_foreign_key "rewards", "assigned_chores"
 end
