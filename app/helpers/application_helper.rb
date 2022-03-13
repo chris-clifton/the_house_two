@@ -21,17 +21,34 @@ module ApplicationHelper
     end
   end
 
-  # The nested form helper 'fields_for' wont display the fields if a consequence
-  # doesnt already exist.  Since that wont ever be the case when we're creating a new
-  # assigned_chore, and thus a consequence, we need to instantiate a new Consequence
-  # for this form.
-  # https://www.sitepoint.com/complex-rails-forms-with-nested-attributes/
+  # Return either the avatar attached to the user, or the default gravatar
+  # image for a user without an avatar. Unless a 'size' param is provided,
+  # set a default of size 48.
   #
-  # @param assigned_chore [AssignedChore]
-  # @return [Consequence]
-  def setup_consequence_for_nested_form(assigned_chore)
-    assigned_chore.consequence.present? ? assigned_chore.consequence : assigned_chore.build_consequence
+  # @param user [User]
+  # @param opts[:size] [Integer]
+  def avatar_url_for(user, opts = {})
+    size = opts[:size] || 48
+
+    if user.avatar.attached?
+      current_user.avatar.variant(resize_to_fill: [size, nil])
+    else
+      hash = Digest::MD5.hexdigest(user.email.downcase)
+      "https://www.gravatar.com/avatar/00000000000000000000000000000000.png?s=#{size}}"
+    end
   end
+
+  # # The nested form helper 'fields_for' wont display the fields if a consequence
+  # # doesnt already exist.  Since that wont ever be the case when we're creating a new
+  # # assigned_chore, and thus a consequence, we need to instantiate a new Consequence
+  # # for this form.
+  # # https://www.sitepoint.com/complex-rails-forms-with-nested-attributes/
+  # #
+  # # @param assigned_chore [AssignedChore]
+  # # @return [Consequence]
+  # def setup_consequence_for_nested_form(assigned_chore)
+  #   assigned_chore.consequence.present? ? assigned_chore.consequence : assigned_chore.build_consequence
+  # end
 
   private
 

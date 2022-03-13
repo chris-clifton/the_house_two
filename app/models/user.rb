@@ -10,5 +10,19 @@ class User < ApplicationRecord
   has_many :assigned_chores
   has_many :consequences
 
+  has_one_attached :avatar
+
   enum role: [:user, :moderator, :admin]
+
+  # def rewards_attributes=(rewards_attributes)
+  #   rewards_attributes.each do |i, reward_attributes|
+  #     self.reward.build(reward_attributes)
+  #   end
+  # end
+
+  # def consequences_attributes=(consequences_attributes)
+  #   consequences_attributes.each do |i, consequence_attributes|
+  #     self.consequence.build(consequence_attributes)
+  #   end
+  # end
 end

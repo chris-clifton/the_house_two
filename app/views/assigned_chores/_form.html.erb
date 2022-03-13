@@ -20,18 +20,25 @@
 
       <div class="field mt-6">
         <%= form.label :user_id, class: "label" %>
-        <%= form.select :user_id, options_for_select(@users.collect { |u| [u.name, u.id] }, assigned_chore.id), {}, class: "form-select" %>
+        <%= form.select :user_id,
+                        options_for_select(@users.collect { |u| [u.name, u.id] }, assigned_chore.user&.id),
+                        { include_blank: "" },
+                        class: "form-select" %>
       </div>
 
       <div class="field mt-6">
         <%= form.label :chore_id, class: "label" %>
-        <%= form.select :chore_id, options_for_select(@chores.collect { |u| [u.name, u.id] }, assigned_chore.id), {}, class: "form-select" %>
+        <%= form.select :chore_id,
+                        options_for_select(@chores.collect { |u| [u.name, u.id] }, assigned_chore.chore&.id),
+                        { include_blank: "" },
+                        class: "form-select" %>
       </div>
 
       <div class="field mt-6">
         <%= form.label :due_date, class: "label" %>
         <%= form.date_field :due_date, class: "input"%>
       </div>
+      <br/>
     </div>
 
     <!-- Reward builder -->
@@ -42,18 +49,21 @@
           <p class="mt-1 text-sm text-gray-500">Select the reward amount and type for successfully completing the chore.</p>
         </div>
 
-        <div class="flex justify-between">
-          <div class="field mt-6">
+        <div class="flex mt-6">
+          <div class="field mr-4">
             <%= reward_builder.label :value, class: "label" %>
             <%= reward_builder.number_field :value, class: "input" %>
           </div>
 
-          <div class="field mt-6">
-            <!-- TODO: turn this into a select -->
+          <div class="field w-full">
             <%= reward_builder.label :type, class: "label" %>
-            <%= reward_builder.number_field :category, class: "input" %>
+            <%= reward_builder.select :category,
+                                      options_for_select(Reward.categories.map { |key, value| [key.titleize, Reward.categories.key(value)] }),
+                                      {},
+                                      class: "form-select" %>
           </div>
         </div>
+        <br/>
       </div>
     <% end %>
 
@@ -65,24 +75,29 @@
           <p class="mt-1 text-sm text-gray-500">Select the consequence amount, duration, and type for not completing the chore.</p>
         </div>
 
-        <div class="flex justify-between">
-          <div class="field mt-6">
+        <div class="flex w-full mt-6">
+          <div class="field w-full mr-2">
             <%= consequence_builder.label :value, class: "label" %>
             <%= consequence_builder.number_field :value, class: "input" %>
           </div>
 
-          <div class="field mt-6">
-            <!-- TODO: turn this into a select -->
+          <div class="field w-full mr-2">
             <%= consequence_builder.label :duration, class: "label" %>
-            <%= consequence_builder.text_field :duration, class: "input" %>
+            <%= consequence_builder.select :duration,
+                                           options_for_select(Consequence.durations.map { |key, value| [key.titleize, Consequence.durations.key(value)] }),
+                                           {},
+                                           class: "input" %>
           </div>
 
-          <div class="field mt-6">
-            <!-- TODO: turn this into a select -->
+          <div class="field w-full">
             <%= consequence_builder.label :type, class: "label" %>
-            <%= consequence_builder.text_field :category, class: "input" %>
+            <%= consequence_builder.select :category,
+                                           options_for_select(Consequence.categories.map { |key, value| [key.titleize, Consequence.categories.key(value)] }),
+                                           {},
+                                           class: "form-select" %>
           </div>
         </div>
+        <br/>
       </div>
     <% end %>
 

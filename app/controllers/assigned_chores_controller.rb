@@ -68,7 +68,7 @@ class AssignedChoresController < ApplicationController
     @assigned_chore.destroy
 
     respond_to do |format|
-      format.html { redirect_to assigned_chores_url, notice: 'User chore was successfully destroyed.' }
+      format.html { redirect_to assigned_chores_url, status: :see_other, notice: 'User chore was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
@@ -81,8 +81,14 @@ class AssignedChoresController < ApplicationController
   end
 
   # Only allow a list of trusted parameters through.
+  # Accept nested attribtues for the reward and consequence.
   def assigned_chore_params
-    params.require(:assigned_chore).permit(:user_id, :chore_id)
+    params.require(:assigned_chore).permit(:user_id, :chore_id, 
+                                           reward_attributes: [:value,
+                                                               :category],
+                                           consequence_attributes: [:value,
+                                                                    :duration,
+                                                                    :category])
   end
 
   # TODO: Extract to application controller and document
