@@ -7,7 +7,6 @@ export default class extends Controller {
 
   // Handle rendering an image preview
   renderPreview() {
-    console.log("inside renderPreview");
     let input = this.inputTarget
     let output = this.outputTarget
 
