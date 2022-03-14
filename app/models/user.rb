@@ -12,6 +12,11 @@ class User < ApplicationRecord
 
   has_one_attached :avatar
 
+  has_person_name
+
+  extend FriendlyId
+  friendly_id :name, use: :slugged
+
   enum role: [:user, :moderator, :admin]
 
   # def rewards_attributes=(rewards_attributes)

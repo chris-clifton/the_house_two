@@ -25,7 +25,18 @@
             <!-- <tr class="bg-gray-50"> -->
               <tr class="bg-white">
                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"><%= chore.name %></td>
-                <td class="px-6 py-4 whitespace-nowrap text-center text-sm font-medium">user icon</td>
+                <td class="px-6 py-4 whitespace-nowrap text-center text-sm font-medium">
+                  <div class="flex">
+                    <% chore.currently_assigned_users.each do |user| %>
+                      <!-- This image_tag should be a link to a view that lists all the AssignedChores a user
+                           has for this particular chore. A user can have multiple AssignedChores for any given chore
+                           i.g. I have to take the trash out and have an AssignedChore for Friday, Saturday, Sunday
+                           so I'll need to figure out the best way to handle this later. For now, just display the avatar
+                           if the user is assigned to this chore at all -->
+                      <%= image_tag avatar_url_for(user, size: 40), class: "rounded-full mx-2" %>
+                    <% end %>
+                  </div>
+                </td>
                 <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                   <%= link_to 'Edit', edit_chore_path(chore), class: "text-indigo-600 hover:text-indigo-900" %>
                 </td>

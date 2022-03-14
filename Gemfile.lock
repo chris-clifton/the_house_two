@@ -98,6 +98,8 @@ GEM
     digest (3.1.0)
     erubi (1.10.0)
     ffi (1.15.5)
+    friendly_id (5.4.2)
+      activerecord (>= 4.0.0)
     globalid (1.0.0)
       activesupport (>= 5.0)
     gravatar_image_tag (1.2.0)
@@ -131,6 +133,8 @@ GEM
     mini_mime (1.1.2)
     minitest (5.15.0)
     msgpack (1.4.5)
+    name_of_person (1.1.1)
+      activesupport (>= 5.2.0)
     net-imap (0.2.3)
       digest
       net-protocol
@@ -159,6 +163,8 @@ GEM
       nio4r (~> 2.0)
     racc (1.6.0)
     rack (2.2.3)
+    rack-mini-profiler (3.0.0)
+      rack (>= 1.2.0)
     rack-test (1.1.0)
       rack (>= 1.0, < 3)
     rails (7.0.2.2)
@@ -203,6 +209,7 @@ GEM
       childprocess (>= 0.5, < 5.0)
       rexml (~> 3.2, >= 3.2.5)
       rubyzip (>= 1.2.2)
+    spring (4.0.0)
     sprockets (4.0.3)
       concurrent-ruby (~> 1.0)
       rack (> 1, < 3)
@@ -248,17 +255,21 @@ DEPENDENCIES
   capybara
   debug
   devise
+  friendly_id
   gravatar_image_tag
   image_processing (~> 1.2)
   importmap-rails
   inline_svg
   jbuilder
+  name_of_person
   pg (~> 1.1)
   pry (~> 0.13.1)
   puma (~> 5.0)
+  rack-mini-profiler
   rails (~> 7.0.2, >= 7.0.2.2)
   redis (~> 4.0)
   selenium-webdriver
+  spring
   sprockets-rails
   stimulus-rails
   tailwindcss-rails

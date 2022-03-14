@@ -31,9 +31,8 @@ module ApplicationHelper
     size = opts[:size] || 48
 
     if user.avatar.attached?
-      current_user.avatar.variant(resize_to_fill: [size, nil])
+      user.avatar.variant(resize_to_fill: [size, nil])
     else
-      hash = Digest::MD5.hexdigest(user.email.downcase)
       "https://www.gravatar.com/avatar/00000000000000000000000000000000.png?s=#{size}}"
     end
   end
