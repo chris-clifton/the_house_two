@@ -45,8 +45,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_03_13_221515) do
   create_table "assigned_chores", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.bigint "chore_id", null: false
-    t.boolean "completed", default: false, null: false
-    t.boolean "failed", default: false, null: false
+    t.integer "status", default: 0, null: false
     t.datetime "due_date", precision: nil
     t.text "note"
     t.datetime "created_at", null: false
