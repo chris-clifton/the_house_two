@@ -12,13 +12,10 @@
     <div data-controller="image-preview" class="border-container">
       <div class="field p-8">
         <div class="">
-          <% if current_user.avatar.attached? %>
-            <%= image_tag current_user.avatar.variant(resize_to_fill: [48, nil]),
-                class: "rounded-full",
-                data: { target: "image-preview.output" } %>
-          <% else %>
-            No Avatar attached
-          <% end %>
+            <%= image_tag avatar_url_for(current_user, size: 360), class: "rounded-full",
+                                                                   data: { target: "image-preview.output" } %>
+
+
         </div>
         <div class="">
           <div class="form-group">

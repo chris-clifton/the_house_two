@@ -5,7 +5,7 @@
       <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-700">Sign in</h2>
     </div>
     <div>
-      <%= form_for(resource, as: resource_name, url: session_path(resource_name), class: "mt-8 space-y-6") do |f| %>
+      <%= form_for(resource, as: resource_name, url: session_path(resource_name), class: "mt-8 space-y-6", data: { turbo: "false" } )do |f| %>
         <div class="rounded-md shadow-sm -space-y-px mb-4">
           <div>
             <%= f.label :email, class: "sr-only" %>
