@@ -73,6 +73,19 @@ class AssignedChoresController < ApplicationController
     end
   end
 
+  # PUT /assigned_chores/:id/mark_complete
+  def mark_complete
+    user = User.find(params[:user_id])
+    assigned_chore = AssignedChore.find(params[:assigned_chore_id])
+
+    interaction = AssignedChoreInteractions::MarkComplete.run(user: user,
+                                                              assigned_chore: assigned_chore)
+
+    data = { message: interaction.message }
+
+    render json: data
+  end
+
   private
 
   # Use callbacks to share common setup or constraints between actions.
@@ -83,7 +96,7 @@ class AssignedChoresController < ApplicationController
   # Only allow a list of trusted parameters through.
   # Accept nested attribtues for the reward and consequence.
   def assigned_chore_params
-    params.require(:assigned_chore).permit(:user_id, :chore_id, 
+    params.require(:assigned_chore).permit(:user_id, :chore_id, :due_date, :status,
                                            reward_attributes: [:value,
                                                                :category],
                                            consequence_attributes: [:value,

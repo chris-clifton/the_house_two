@@ -4,8 +4,13 @@ Rails.application.routes.draw do
   resources :users, only: [:index, :show], param: :slug
 
   resources :chores
-  resources :assigned_chores
+
+  resources :assigned_chores do
+    put 'mark_complete'
+  end
+
   resources :consequences
+
   resources :consequence_types
 
   root "home#index"

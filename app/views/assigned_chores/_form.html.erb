@@ -35,9 +35,18 @@
       </div>
 
       <div class="field mt-6">
-        <%= form.label :due_date, class: "label" %>
-        <%= form.date_field :due_date, class: "input"%>
+        <%= form.label :status, class: "label" %>
+        <%= form.select :status,
+                        options_for_select(AssignedChore.statuses.map { |key, value| [key.titleize, AssignedChore.statuses.key(value)] }, assigned_chore.status),
+                        {},
+                        class: "form-select" %>
       </div>
+
+      <div class="field mt-6">
+        <%= form.label :due_date, class: "label" %>
+        <%= form.date_field :due_date, class: "input" %>
+      </div>
+
       <br/>
     </div>
 
@@ -63,6 +72,7 @@
                                       class: "form-select" %>
           </div>
         </div>
+
         <br/>
       </div>
     <% end %>
@@ -97,6 +107,7 @@
                                            class: "form-select" %>
           </div>
         </div>
+
         <br/>
       </div>
     <% end %>

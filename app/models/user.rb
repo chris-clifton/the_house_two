@@ -8,7 +8,6 @@ class User < ApplicationRecord
 
   has_many :chores, through: :assigned_chores
   has_many :assigned_chores
-  has_many :consequences
 
   has_one_attached :avatar
 
@@ -19,15 +18,48 @@ class User < ApplicationRecord
 
   enum role: [:user, :moderator, :admin]
 
-  # def rewards_attributes=(rewards_attributes)
-  #   rewards_attributes.each do |i, reward_attributes|
-  #     self.reward.build(reward_attributes)
-  #   end
-  # end
+  # Return a collection of all a user's assigned chores that have the status
+  # of either :in_progress or :pending_review
+  #
+  # @return [AssignedChore collection]
+  def open_chores
+    assigned_chores.where(status: [:in_progress, :pending_review])
+  end
 
-  # def consequences_attributes=(consequences_attributes)
-  #   consequences_attributes.each do |i, consequence_attributes|
-  #     self.consequence.build(consequence_attributes)
-  #   end
-  # end
+  # Return the sum of all a user's assigned chores reward's values for all
+  # open chores (status is either :in_progress or :pending_review)
+  #
+  # @return [Integer]
+  def available_rewards
+    open_chores.map { |ac| ac.reward.value }.inject(0, :+)
+  end
+
+  # Return the sum of all a user's assigned_chores rewards values
+  # where the status is :failed
+  #
+  # @return [Integer]
+  def missed_rewards
+    missed_chores = assigned_chores.where(status: :failed)
+    missed_chores.map { |ac| ac.reward.value }.inject(0, :+)
+  end
+
+  # TODO: Stubbing this for now
+  def consequences
+    []
+  end
+
+  # TODO: Stubbing this for now
+  def challenges
+    []
+  end
+
+  # TODO: Stubbing this out for now
+  def trainings
+    []
+  end
+
+  # TODO: Stubbing this out for now
+  def milestones
+    []
+  end
 end

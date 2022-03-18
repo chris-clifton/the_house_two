@@ -1,0 +1,54 @@
+<div class="py-4">
+  <div class="max-w-7xl flex">
+      <span class="rounded-lg inline-flex p-3 bg-indigo-50 text-indigo-700">
+        <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+          <path d="M12 14l9-5-9-5-9 5 9 5z" />
+          <path d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" />
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14zm-4 6v-7.5l4-2.222" />
+        </svg>
+      </span>
+    <h1 class="text-3xl font-black text-gray-700 pt-2 ml-2">My Training</h1>
+  </div>
+</div>
+
+<% if trainings.present? %>
+  <div class="flex flex-col mb-4">
+    <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+      <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+        <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+          <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-50">
+              <tr>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Chore</th>
+                <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+              </tr>
+            </thead>
+          <tbody>
+            <% trainings.each do |training| %>
+              <!-- TODO: update with striping -->
+              <!-- Even row -->
+              <!-- <tr class="bg-gray-50"> -->
+              <tr class="bg-white">
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"><%= link_to assigned_chore.chore.name, assigned_chore_path(assigned_chore) %></td>
+                <td class="text-center px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"><%= assigned_chore.status.humanize %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+<% else %>
+  <div class="flex flex-col mb-4">
+    <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+      <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+        <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg bg-white p-6 flex justify-between">
+          <div class="pt-2">
+            You don't have any open Training right now.<br/>Can you think of something you want to learn? Try requesting Training!
+          </div>
+          <button class="btn btn-blue">Request Training</button>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>
