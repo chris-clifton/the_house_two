@@ -41,7 +41,7 @@
           <table class="min-w-full divide-y divide-gray-200">
             <thead class="bg-gray-50">
               <tr>
-                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Chore</th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">task</th>
                 <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
               </tr>
             </thead>
@@ -51,8 +51,8 @@
               <!-- Even row -->
               <!-- <tr class="bg-gray-50"> -->
               <tr class="bg-white">
-                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"><%= link_to assigned_chore.chore.name, assigned_chore_path(assigned_chore) %></td>
-                <td class="text-center px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"><%= assigned_chore.status.humanize %></td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"><%= link_to assignment.task.name, assignment_path(assignment) %></td>
+                <td class="text-center px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"><%= assignment.status.humanize %></td>
               </tr>
             <% end %>
           </tbody>

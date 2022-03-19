@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-# AssignedChore class
-class AssignedChore < ApplicationRecord
+# Assignment class
+class Assignment < ApplicationRecord
   belongs_to :user
-  belongs_to :chore
+  belongs_to :task
   has_one :reward, dependent: :destroy
   has_one :consequence, dependent: :destroy
 

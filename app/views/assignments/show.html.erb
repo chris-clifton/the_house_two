@@ -1,11 +1,11 @@
 <!-- TODO: Convert to turbo stream, remove the Stimulus stuff and the
            messages container -->
-<div id="assigned-chore-show-message-container" class="max-w-xl"></div>
+<div id="assignment-show-message-container" class="max-w-xl"></div>
 
 <div class="pt-2 pb-4">
   <div class="max-w-7xl flex align-middle">
-    <%= image_tag avatar_url_for(@assigned_chore.user, size: 50), class: "rounded-full" %>
-    <h1 class="ml-2 pt-2 text-3xl font-black text-gray-900"><%= @assigned_chore.chore.name %></h1>
+    <%= image_tag avatar_url_for(@assignment.user, size: 50), class: "rounded-full" %>
+    <h1 class="ml-2 pt-2 text-3xl font-black text-gray-900"><%= @assignment.task.name %></h1>
   </div>
 </div>
 
@@ -13,10 +13,10 @@
   <div class="border-b">
     <div class="field mt-6">
       <div class="label">
-        Chore description
+        task description
       </div>
       <div class="border-container">
-        <%= @assigned_chore.chore.description %>
+        <%= @assignment.task.description %>
       </div>
     </div>
 
@@ -25,7 +25,7 @@
         User
       </div>
       <div class="flex border-container">
-        <%= @assigned_chore.user.name %>
+        <%= @assignment.user.name %>
       </div>
     </div>
 
@@ -34,17 +34,17 @@
         Status
       </div>
       <div id="status-container" class="border-container">
-        <%= @assigned_chore.status.humanize %>
+        <%= @assignment.status.humanize %>
       </div>
     </div>
 
-    <% if @assigned_chore.due_date.present? %>
+    <% if @assignment.due_date.present? %>
         <div class="field mt-6">
           <div class="label">
             Due Date
           </div>
           <div class="border-container">
-            <%= @assigned_chore.due_date %>
+            <%= @assignment.due_date %>
           </div>
         </div>
     <% end %>
@@ -58,7 +58,7 @@
     </div>
 
     <div class="flex mt-6 border-container">
-      <%= @assigned_chore.reward.pretty_reward %>
+      <%= @assignment.reward.pretty_reward %>
     </div>
 
     <br/>
@@ -70,23 +70,23 @@
     </div>
 
     <div class="flex w-full mt-6 border-container">
-      <%= @assigned_chore.consequence.pretty_consequence %>
+      <%= @assignment.consequence.pretty_consequence %>
     </div>
 
     <br/>
   </div>
 </div>
 
-<div data-controller="assigned-chores" class="max-w-xl mt-6 text-right">
+<div data-controller="assignments" class="max-w-xl mt-6 text-right">
   <% if current_user.admin? %>
-    <%= link_to 'Edit', edit_assigned_chore_path(@assigned_chore), class: "btn btn-gray" %>
+    <%= link_to 'Edit', edit_assignment_path(@assignment), class: "btn btn-gray" %>
   <% end %>
 
-  <% if @assigned_chore.in_progress? %>
+  <% if @assignment.in_progress? %>
     <div id="mark-complete-button"
-         data-action="click->assigned-chores#markComplete"
+         data-action="click->assignments#markComplete"
          data-current-user-id="<%= current_user.id %>"
-         data-assigned-chore-id="<%= @assigned_chore.id %>"
+         data-assignment-id="<%= @assignment.id %>"
          class="btn btn-green">
       Mark Complete
     </div>

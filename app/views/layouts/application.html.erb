@@ -66,7 +66,7 @@
                   <li><%= link_to "Log In", new_user_session_path %></li>
                 <% elsif current_user.admin? %>
                   <li><%= active_link_to text: "Home", path: root_path %></li>    
-                  <li><%= active_link_to text: "Chores", path: chores_path %></li>
+                  <li><%= active_link_to text: "Tasks", path: tasks_path %></li>
                   <li><%= active_link_to text: "Challenges", path: "#" %></li>
                   <li><%= active_link_to text: "Training", path: "#" %></li>
                   <li><%= active_link_to text: "Milestones", path: "#" %></li>
@@ -75,7 +75,7 @@
                   <li><%= link_to "Sign Out", destroy_user_session_path, data: { "turbo-method": :delete } %></li>
                 <% else %>
                   <li><%= active_link_to text: "Home", path: root_path %></li>    
-                  <li><%= active_link_to text: "Chores", path: chores_path %></li>
+                  <li><%= active_link_to text: "Tasks", path: tasks_path %></li>
                   <li><%= active_link_to text: "Challenges", path: "#" %></li>
                   <li><%= active_link_to text: "Training", path: "#" %></li>
                   <li><%= active_link_to text: "Milestones", path: "#" %></li>
@@ -123,7 +123,7 @@
                   <li><%= link_to "Log In", new_user_session_path %></li>
                 <% elsif current_user.admin? %>
                   <li><%= active_link_to text: "Home", path: root_path %></li>    
-                  <li><%= active_link_to text: "Chores", path: chores_path %></li>
+                  <li><%= active_link_to text: "Tasks", path: tasks_path %></li>
                   <li><%= active_link_to text: "Challenges", path: "#" %></li>
                   <li><%= active_link_to text: "Training", path: "#" %></li>
                   <li><%= active_link_to text: "Milestones", path: "#" %></li>
@@ -132,7 +132,7 @@
                   <li><%= link_to "Sign Out", destroy_user_session_path, data: { "turbo-method": :delete } %></li>
                 <% else %>
                   <li><%= active_link_to text: "Home", path: root_path %></li>    
-                  <li><%= active_link_to text: "Chores", path: chores_path %></li>
+                  <li><%= active_link_to text: "Tasks", path: tasks_path %></li>
                   <li><%= active_link_to text: "Challenges", path: "#" %></li>
                   <li><%= active_link_to text: "Training", path: "#" %></li>
                   <li><%= active_link_to text: "Milestones", path: "#" %></li>

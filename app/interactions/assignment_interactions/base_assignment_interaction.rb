@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-module AssignedChoreInteractions
-  # Parent class for all AssignedChore interactions
-  class BaseAssignedChoreInteraction
-    attr_accessor :error, :message, :assigned_chore
+module AssignmentInteractions
+  # Parent class for all Assignment interactions
+  class BaseAssignmentInteraction
+    attr_accessor :error, :message, :assignment
 
     class RequiredParametersMissing < StandardError
       def to_s
@@ -12,7 +12,7 @@ module AssignedChoreInteractions
     end
 
     def initialize(options)
-      @assigned_chore = options[:assigned_chore]
+      @assignment = options[:assignment]
     end
 
     # Was the interaction successful?

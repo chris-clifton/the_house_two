@@ -1,11 +1,11 @@
 <div class="max-w-2xl">
-  <%= form_with(model: chore) do |form| %>
-    <% if chore.errors.any? %>
+  <%= form_with(model: task) do |form| %>
+    <% if task.errors.any? %>
       <div id="error_explanation">
-        <h2><%= pluralize(chore.errors.count, "error") %> prohibited this chore from being saved:</h2>
+        <h2><%= pluralize(task.errors.count, "error") %> prohibited this task from being saved:</h2>
 
         <ul>
-          <% chore.errors.each do |error| %>
+          <% task.errors.each do |error| %>
             <li><%= error.full_message %></li>
           <% end %>
         </ul>
@@ -19,10 +19,10 @@
 
     <div class="field">
       <%= form.label :description, class: "label" %>
-      <%= form.text_area :description, class: "input", rows: 5, placeholder: "Describe the chore and all necessary steps to complete it" %>
+      <%= form.text_area :description, class: "input", rows: 5, placeholder: "Describe the task and all necessary steps to complete it" %>
     </div>
 
-    <!-- TODO: Nested form to create the chore with an assigned user -->
+    <!-- TODO: Nested form to create the task with an assigned user -->
 
     <div class="actions mt-4 text-right">
       <%= form.submit class: "btn btn-green" %>
