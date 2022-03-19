@@ -1,11 +1,11 @@
 <div class="max-w-xl">
-  <%= form_with(model: assigned_chore) do |form| %>
-    <% if assigned_chore.errors.any? %>
+  <%= form_with(model: assignment) do |form| %>
+    <% if assignment.errors.any? %>
       <div id="error_explanation">
-        <h2><%= pluralize(assigned_chore.errors.count, "error") %> prohibited this assigned_chore from being saved:</h2>
+        <h2><%= pluralize(assignment.errors.count, "error") %> prohibited this assignment from being saved:</h2>
 
         <ul>
-          <% assigned_chore.errors.each do |error| %>
+          <% assignment.errors.each do |error| %>
             <li><%= error.full_message %></li>
           <% end %>
         </ul>
@@ -14,22 +14,22 @@
 
     <div class="border-b">
       <div>
-        <h3 class="text-lg leading-6 font-medium text-gray-900">Chore and User Details</h3>
-        <p class="mt-1 text-sm text-gray-500">Select a chore and user (required) and optionally add a due date.</p>
+        <h3 class="text-lg leading-6 font-medium text-gray-900">task and User Details</h3>
+        <p class="mt-1 text-sm text-gray-500">Select a task and user (required) and optionally add a due date.</p>
       </div>
 
       <div class="field mt-6">
         <%= form.label :user_id, class: "label" %>
         <%= form.select :user_id,
-                        options_for_select(@users.collect { |u| [u.name, u.id] }, assigned_chore.user&.id),
+                        options_for_select(@users.collect { |u| [u.name, u.id] }, assignment.user&.id),
                         { include_blank: "" },
                         class: "form-select" %>
       </div>
 
       <div class="field mt-6">
-        <%= form.label :chore_id, class: "label" %>
-        <%= form.select :chore_id,
-                        options_for_select(@chores.collect { |u| [u.name, u.id] }, assigned_chore.chore&.id),
+        <%= form.label :task_id, class: "label" %>
+        <%= form.select :task_id,
+                        options_for_select(@tasks.collect { |u| [u.name, u.id] }, assignment.task&.id),
                         { include_blank: "" },
                         class: "form-select" %>
       </div>
@@ -37,7 +37,7 @@
       <div class="field mt-6">
         <%= form.label :status, class: "label" %>
         <%= form.select :status,
-                        options_for_select(AssignedChore.statuses.map { |key, value| [key.titleize, AssignedChore.statuses.key(value)] }, assigned_chore.status),
+                        options_for_select(Assignment.statuses.map { |key, value| [key.titleize, Assignment.statuses.key(value)] }, assignment.status),
                         {},
                         class: "form-select" %>
       </div>
@@ -55,7 +55,7 @@
       <div class="border-b">
         <div class="mt-6">
           <h3 class="text-lg leading-6 font-medium text-gray-900">Reward</h3>
-          <p class="mt-1 text-sm text-gray-500">Select the reward amount and type for successfully completing the chore.</p>
+          <p class="mt-1 text-sm text-gray-500">Select the reward amount and type for successfully completing the task.</p>
         </div>
 
         <div class="flex mt-6">
@@ -82,7 +82,7 @@
       <div class="border-b">
         <div class="mt-6">
           <h3 class="text-lg leading-6 font-medium text-gray-900">Consequence</h3>
-          <p class="mt-1 text-sm text-gray-500">Select the consequence amount, duration, and type for not completing the chore.</p>
+          <p class="mt-1 text-sm text-gray-500">Select the consequence amount, duration, and type for not completing the task.</p>
         </div>
 
         <div class="flex w-full mt-6">

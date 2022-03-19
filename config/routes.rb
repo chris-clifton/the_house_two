@@ -3,9 +3,9 @@ Rails.application.routes.draw do
   devise_for :users
   resources :users, only: [:index, :show], param: :slug
 
-  resources :chores
+  resources :tasks
 
-  resources :assigned_chores do
+  resources :assignments do
     put 'mark_complete'
   end
 

@@ -6,8 +6,8 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
-  has_many :chores, through: :assigned_chores
-  has_many :assigned_chores
+  has_many :tasks, through: :assignments
+  has_many :assignments
 
   has_one_attached :avatar
 
@@ -18,29 +18,29 @@ class User < ApplicationRecord
 
   enum role: [:user, :moderator, :admin]
 
-  # Return a collection of all a user's assigned chores that have the status
+  # Return a collection of all a user's assignments that have the status
   # of either :in_progress or :pending_review
   #
-  # @return [AssignedChore collection]
-  def open_chores
-    assigned_chores.where(status: [:in_progress, :pending_review])
+  # @return [Assignedtask collection]
+  def open_tasks
+    assignments.where(status: [:in_progress, :pending_review])
   end
 
-  # Return the sum of all a user's assigned chores reward's values for all
-  # open chores (status is either :in_progress or :pending_review)
+  # Return the sum of all a user's assignments reward's values for all
+  # open tasks (status is either :in_progress or :pending_review)
   #
   # @return [Integer]
   def available_rewards
-    open_chores.map { |ac| ac.reward.value }.inject(0, :+)
+    open_tasks.map { |ac| ac.reward.value }.inject(0, :+)
   end
 
-  # Return the sum of all a user's assigned_chores rewards values
+  # Return the sum of all a user's assignments rewards values
   # where the status is :failed
   #
   # @return [Integer]
   def missed_rewards
-    missed_chores = assigned_chores.where(status: :failed)
-    missed_chores.map { |ac| ac.reward.value }.inject(0, :+)
+    missed_assignments = assignments.where(status: :failed)
+    missed_assignments.map { |ac| ac.reward.value }.inject(0, :+)
   end
 
   # TODO: Stubbing this for now

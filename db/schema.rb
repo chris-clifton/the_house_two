@@ -42,34 +42,26 @@ ActiveRecord::Schema[7.0].define(version: 2022_03_13_221515) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
-  create_table "assigned_chores", force: :cascade do |t|
+  create_table "assignments", force: :cascade do |t|
     t.bigint "user_id", null: false
-    t.bigint "chore_id", null: false
+    t.bigint "task_id", null: false
     t.integer "status", default: 0, null: false
     t.datetime "due_date", precision: nil
     t.text "note"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["chore_id"], name: "index_assigned_chores_on_chore_id"
-    t.index ["user_id"], name: "index_assigned_chores_on_user_id"
-  end
-
-  create_table "chores", force: :cascade do |t|
-    t.string "name", default: "", null: false
-    t.text "description", default: "", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["name"], name: "index_chores_on_name", unique: true
+    t.index ["task_id"], name: "index_assignments_on_task_id"
+    t.index ["user_id"], name: "index_assignments_on_user_id"
   end
 
   create_table "consequences", force: :cascade do |t|
-    t.bigint "assigned_chore_id", null: false
+    t.bigint "assignment_id", null: false
     t.integer "value", default: 0, null: false
     t.integer "duration", default: 0, null: false
     t.integer "category", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["assigned_chore_id"], name: "index_consequences_on_assigned_chore_id"
+    t.index ["assignment_id"], name: "index_consequences_on_assignment_id"
   end
 
   create_table "friendly_id_slugs", force: :cascade do |t|
@@ -84,12 +76,21 @@ ActiveRecord::Schema[7.0].define(version: 2022_03_13_221515) do
   end
 
   create_table "rewards", force: :cascade do |t|
-    t.bigint "assigned_chore_id", null: false
+    t.bigint "assignment_id", null: false
     t.integer "value", default: 0, null: false
     t.integer "category", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["assigned_chore_id"], name: "index_rewards_on_assigned_chore_id"
+    t.index ["assignment_id"], name: "index_rewards_on_assignment_id"
+  end
+
+  create_table "tasks", force: :cascade do |t|
+    t.string "name", default: "", null: false
+    t.text "description", default: "", null: false
+    t.integer "category", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_tasks_on_name", unique: true
   end
 
   create_table "users", force: :cascade do |t|
@@ -114,8 +115,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_03_13_221515) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "assigned_chores", "chores"
-  add_foreign_key "assigned_chores", "users"
-  add_foreign_key "consequences", "assigned_chores"
-  add_foreign_key "rewards", "assigned_chores"
+  add_foreign_key "assignments", "tasks"
+  add_foreign_key "assignments", "users"
+  add_foreign_key "consequences", "assignments"
+  add_foreign_key "rewards", "assignments"
 end

@@ -39,14 +39,14 @@ module ApplicationHelper
 
   # # The nested form helper 'fields_for' wont display the fields if a consequence
   # # doesnt already exist.  Since that wont ever be the case when we're creating a new
-  # # assigned_chore, and thus a consequence, we need to instantiate a new Consequence
+  # # assignment, and thus a consequence, we need to instantiate a new Consequence
   # # for this form.
   # # https://www.sitepoint.com/complex-rails-forms-with-nested-attributes/
   # #
-  # # @param assigned_chore [AssignedChore]
+  # # @param assignment [Assignedtask]
   # # @return [Consequence]
-  # def setup_consequence_for_nested_form(assigned_chore)
-  #   assigned_chore.consequence.present? ? assigned_chore.consequence : assigned_chore.build_consequence
+  # def setup_consequence_for_nested_form(assignment)
+  #   assignment.consequence.present? ? assignment.consequence : assignment.build_consequence
   # end
 
   private
@@ -60,8 +60,8 @@ module ApplicationHelper
     case nav_type
     when 'Home'
       nav_menu_home_html(active)
-    when 'Chores'
-      nav_menu_chores_html(active)
+    when 'Tasks'
+      nav_menu_tasks_html(active)
     when 'Challenges'
       nav_menu_challenges_html(active)
     when 'Training'
@@ -90,15 +90,15 @@ module ApplicationHelper
   end
 
   # Return a string containing the HTML we want inside the nav active_link_to
-  # for the chores link. Set the text color based on its active status.
+  # for the tasks link. Set the text color based on its active status.
   #
   # @params active [Boolean]
   # @return [String]
-  def nav_menu_chores_html(active)
+  def nav_menu_tasks_html(active)
     %(<svg xmlns="http://www.w3.org/2000/svg" class="#{active_text_color(active)} mr-4 flex-shrink-0 h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
         <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
       </svg>
-      <span class="#{active_text_color(active)}">Chores</span>)
+      <span class="#{active_text_color(active)}">Tasks</span>)
   end
 
   # Return a string containing the HTML we want inside the nav active_link_to
