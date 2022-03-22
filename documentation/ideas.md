@@ -13,6 +13,11 @@ Brain dump of all ideas and random thoughts for this app. Many are pipe dreams o
 - Challenges have rewards and no penalties
 - These should be opportunities for kids to "unlock" tasks (via Training) that arent necessarily chores/their responsibility but they can do them in order to earn extra cash
 
+# Rich forms for Chores, Challenges, Training
+- Allow step by step instructions
+- Allow photo uploads
+- Allow limited amount of styling (bold, italics, lists, etc.)
+
 # Other
 - Leaderboard
 - Monthly summaries
@@ -112,3 +117,13 @@ Brain dump of all ideas and random thoughts for this app. Many are pipe dreams o
 - Unlockable "skins" could be used as rewards
   - hats, shirts, accessories, pets, I dunno
 - Unnecessary and you cant draw so you'd be paying for this
+
+# Messages system
+- When a user marks a task complete (changing its status to :pending_review), send a message to the admins/moderators to let them know they have a task to review
+- When an admin/moderator has reviewed the task and marks it either complete, failed, or in progress, send a message to the user to let them know the new status of their task
+  - If the task was marked complete by an admin/moderator, congratulate the user on a job well done and show them the reward they got for that task and their rewards balance
+  - If the task was marked failed, let the user know the rewards they have missed out on and their current balance
+  - If the task was changed back to in progress, let the user know they need to take another shot at it
+  - Provide the ability for the admin/moderator to leave a custom message
+    - back to inprogress example: "Almost finished the dishes but you forgot to start the machine"
+    - marked failed example: "Didnt feed the dog and I already did it"

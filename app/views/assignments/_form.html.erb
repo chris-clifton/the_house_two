@@ -14,7 +14,7 @@
 
     <div class="border-b">
       <div>
-        <h3 class="text-lg leading-6 font-medium text-gray-900">task and User Details</h3>
+        <h3 class="text-lg leading-6 font-medium text-gray-900">Task and User Details</h3>
         <p class="mt-1 text-sm text-gray-500">Select a task and user (required) and optionally add a due date.</p>
       </div>
 
@@ -35,14 +35,6 @@
       </div>
 
       <div class="field mt-6">
-        <%= form.label :status, class: "label" %>
-        <%= form.select :status,
-                        options_for_select(Assignment.statuses.map { |key, value| [key.titleize, Assignment.statuses.key(value)] }, assignment.status),
-                        {},
-                        class: "form-select" %>
-      </div>
-
-      <div class="field mt-6">
         <%= form.label :due_date, class: "label" %>
         <%= form.date_field :due_date, class: "input" %>
       </div>
@@ -50,32 +42,21 @@
       <br/>
     </div>
 
-    <!-- Reward builder -->
-    <%= form.fields_for :reward do |reward_builder| %>
-      <div class="border-b">
-        <div class="mt-6">
-          <h3 class="text-lg leading-6 font-medium text-gray-900">Reward</h3>
-          <p class="mt-1 text-sm text-gray-500">Select the reward amount and type for successfully completing the task.</p>
-        </div>
-
-        <div class="flex mt-6">
-          <div class="field mr-4">
-            <%= reward_builder.label :value, class: "label" %>
-            <%= reward_builder.number_field :value, class: "input" %>
-          </div>
-
-          <div class="field w-full">
-            <%= reward_builder.label :type, class: "label" %>
-            <%= reward_builder.select :category,
-                                      options_for_select(Reward.categories.map { |key, value| [key.titleize, Reward.categories.key(value)] }),
-                                      {},
-                                      class: "form-select" %>
-          </div>
-        </div>
-
-        <br/>
+    <div class="border-b">
+      <div class="mt-6">
+        <h3 class="text-lg leading-6 font-medium text-gray-900">Reward</h3>
+        <p class="mt-1 text-sm text-gray-500">Set the amount of reward points for completing this assignment.</p>
       </div>
-    <% end %>
+
+      <div class="flex mt-6">
+        <div class="field mr-4">
+          <%= form.label :reward, class: "label" %>
+          <%= form.number_field :reward, class: "input" %>
+        </div>
+      </div>
+
+      <br/>
+    </div>
 
     <!-- Consequence builder -->
     <%= form.fields_for :consequence do |consequence_builder| %>

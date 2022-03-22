@@ -18,7 +18,10 @@
            class="fixed inset-0 flex z-40 md:hidden"
            role="dialog"
            aria-modal="true">
-        <!-- Off-canvas menu overlay, show/hide based on off-canvas menu state -->
+
+        <!-- Off-canvas menu overlay, show/hide based on off-canvas menu state
+             TODO: something going on here between the way I've setup the HTML
+                   and how I'm handling showing/hiding in the application_layout_on -->
         <div class="fixed inset-0 bg-gray-600 bg-opacity-75 hidden"
              aria-hidden="true"
              data-action="click->application-layout#toggleSideBar"

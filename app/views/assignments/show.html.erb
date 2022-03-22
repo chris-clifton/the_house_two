@@ -13,7 +13,7 @@
   <div class="border-b">
     <div class="field mt-6">
       <div class="label">
-        task description
+        Task description
       </div>
       <div class="border-container">
         <%= @assignment.task.description %>
@@ -58,7 +58,7 @@
     </div>
 
     <div class="flex mt-6 border-container">
-      <%= @assignment.reward.pretty_reward %>
+      <%= @assignment.reward %>
     </div>
 
     <br/>
@@ -77,14 +77,17 @@
   </div>
 </div>
 
-<div data-controller="assignments" class="max-w-xl mt-6 text-right">
+<!-- TODO: Handle displaying these buttons a little more elegantly -->
+<div data-controller="update-status"
+     data-update-status-assignment-id-value="<%= @assignment.id %>"
+     data-update-status-current-status-value="<%= @assignment.status %>"
+     class="max-w-xl mt-6 text-right">
   <% if current_user.admin? %>
     <%= link_to 'Edit', edit_assignment_path(@assignment), class: "btn btn-gray" %>
-  <% end %>
-
-  <% if @assignment.in_progress? %>
+    <%= render partial: 'update_status' %>
+  <% elsif @assignment.in_progress? %>
     <div id="mark-complete-button"
-         data-action="click->assignments#markComplete"
+         data-action="click->assignments#markPendingReview"
          data-current-user-id="<%= current_user.id %>"
          data-assignment-id="<%= @assignment.id %>"
          class="btn btn-green">

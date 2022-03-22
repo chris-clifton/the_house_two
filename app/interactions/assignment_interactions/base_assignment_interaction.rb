@@ -3,11 +3,12 @@
 module AssignmentInteractions
   # Parent class for all Assignment interactions
   class BaseAssignmentInteraction
-    attr_accessor :error, :message, :assignment
 
+    # Custom class to handle the case where any of our parameters arent correct
     class RequiredParametersMissing < StandardError
+      # Message for the error
       def to_s
-        "Required parameters are missing"
+        'Required parameters are missing'
       end
     end
 

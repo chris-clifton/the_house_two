@@ -46,6 +46,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_03_13_221515) do
     t.bigint "user_id", null: false
     t.bigint "task_id", null: false
     t.integer "status", default: 0, null: false
+    t.integer "reward"
+    t.boolean "reward_applied", default: false, null: false
     t.datetime "due_date", precision: nil
     t.text "note"
     t.datetime "created_at", null: false
@@ -73,15 +75,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_03_13_221515) do
     t.index ["slug", "sluggable_type", "scope"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type_and_scope", unique: true
     t.index ["slug", "sluggable_type"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type"
     t.index ["sluggable_type", "sluggable_id"], name: "index_friendly_id_slugs_on_sluggable_type_and_sluggable_id"
-  end
-
-  create_table "rewards", force: :cascade do |t|
-    t.bigint "assignment_id", null: false
-    t.integer "value", default: 0, null: false
-    t.integer "category", default: 0, null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["assignment_id"], name: "index_rewards_on_assignment_id"
   end
 
   create_table "tasks", force: :cascade do |t|
@@ -118,5 +111,4 @@ ActiveRecord::Schema[7.0].define(version: 2022_03_13_221515) do
   add_foreign_key "assignments", "tasks"
   add_foreign_key "assignments", "users"
   add_foreign_key "consequences", "assignments"
-  add_foreign_key "rewards", "assignments"
 end

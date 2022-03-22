@@ -6,7 +6,8 @@ class AssignmentsController < ApplicationController
   before_action :set_assignment, only: %i[show edit update destroy]
 
   # All Assignment actions should be authorized for admins only
-  before_action :check_if_admin
+  # with the exception of mark_pending_review
+  before_action :check_if_admin, except: :mark_pending_review
 
   # GET /assignments or /assignments.json
   def index
@@ -24,7 +25,6 @@ class AssignmentsController < ApplicationController
     @tasks      = Task.all
 
     @assignment.build_consequence
-    @assignment.build_reward
   end
 
   # GET /assignments/1/edit
@@ -74,15 +74,70 @@ class AssignmentsController < ApplicationController
     end
   end
 
-  # PUT /assignments/:id/mark_complete
-  def mark_complete
-    user       = User.find(params[:user_id])
+  # PUT /assignments/:id/mark_pending_review
+  # Any user should be able to mark their own assignments as pending review
+  # TODO: Handle rerendering the Show view with a turbo stream
+  # TODO: Handle receiving an optional note
+  def mark_pending_review
     assignment = Assignment.find(params[:assignment_id])
 
-    interaction = AssignmentInteractions::MarkComplete.run(user: user,
-                                                           assignment: assignment)
+    if assignment.mark_pending_review
+      data = { message: "This #{assignment.task.category.capitalize} has been marked as 'Pending Review' and is awaiting approval" }
+    else
+      data = { message: "There was an error updating this #{assignment.task.category.capitalize}" }
+    end
 
-    data = { message: interaction.message }
+    render json: data
+  end
+
+  # PUT /assignments/:id/mark_in_progress
+  # Any user should be able to mark their own assignments as pending review
+  # TODO: Handle rerendering the Show view with a turbo stream
+  # TODO: Handle receiving an optional note
+  def mark_in_progress
+    assignment = Assignment.find(params[:assignment_id])
+
+    if assignment.mark_in_progress
+      data = { message: "This #{assignment.task.category.capitalize} has been marked as 'In Progress'" }
+    else
+      data = { message: "There was an error updating this #{assignment.task.category.capitalize}" }
+    end
+
+    render json: data
+  end
+
+  # PUT /assignments/:id/mark_complete
+  # TODO: Handle receiving an optional note
+  def mark_complete
+    # TODO: add Pundit authorization here to make sure user is admin
+    #       Do I need to pass the user ID as an argument from the Stimulus
+    #       controller or are we getting that for free from Devise?
+    # TODO: Handle rerendering the Show view with a turbo stream
+    assignment = Assignment.find(params[:assignment_id])
+
+    if assignment.mark_complete
+      data = { message: "This #{assignment.task.category.capitalize} has been marked as 'Complete'" }
+    else
+      data = { message: "There was an error updating this #{assignment.task.category.capitalize}" }
+    end
+
+    render json: data
+  end
+
+  # PUT /assignments/:id/mark_failed
+  def mark_failed
+    # TODO: add Pundit authorization here to make sure user is admin
+    #       Do I need to pass the user ID as an argument from the Stimulus
+    #       controller or are we getting that for free from Devise?
+    # TODO: Handle rerendering the Show view with a turbo stream
+    # TODO: Handle receiving an optional note
+    assignment = Assignment.find(params[:assignment_id])
+
+    if assignment.mark_failed
+      data = { message: "This #{assignment.task.category.capitalize} has been marked as 'Failed'" }
+    else
+      data = { message: "There was an error updating this #{assignment.task.category.capitalize}" }
+    end
 
     render json: data
   end
@@ -95,11 +150,11 @@ class AssignmentsController < ApplicationController
   end
 
   # Only allow a list of trusted parameters through.
-  # Accept nested attribtues for the reward and consequence.
+  # Accept nested attribtues for the consequence.
+  # Do not permit the 'status' attribute as we want to handle that separately
+  # so we can make use of our AASM logic.
   def assignment_params
-    params.require(:assignment).permit(:user_id, :task_id, :due_date, :status,
-                                       reward_attributes: [:value,
-                                                           :category],
+    params.require(:assignment).permit(:user_id, :task_id, :due_date, :reward,
                                        consequence_attributes: [:value,
                                                                 :duration,
                                                                 :category])

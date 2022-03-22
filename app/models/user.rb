@@ -31,7 +31,7 @@ class User < ApplicationRecord
   #
   # @return [Integer]
   def available_rewards
-    open_tasks.map { |ac| ac.reward.value }.inject(0, :+)
+    open_tasks.map { |assignment| assignment.reward }.inject(0, :+)
   end
 
   # Return the sum of all a user's assignments rewards values
@@ -40,7 +40,7 @@ class User < ApplicationRecord
   # @return [Integer]
   def missed_rewards
     missed_assignments = assignments.where(status: :failed)
-    missed_assignments.map { |ac| ac.reward.value }.inject(0, :+)
+    missed_assignments.map { |assignment| assignment.reward }.inject(0, :+)
   end
 
   # TODO: Stubbing this for now
