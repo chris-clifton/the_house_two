@@ -18,5 +18,10 @@ module TheHouse
     #
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
+    console do
+      require 'the_house/console'
+      Rails::ConsoleMethods.send :include, App::Console
+      TOPLEVEL_BINDING.eval('self').extend App::Console # PRY
+    end
   end
 end

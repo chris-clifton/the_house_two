@@ -21,17 +21,17 @@ module ApplicationHelper
     end
   end
 
-  # Return either the avatar attached to the user, or the default gravatar
-  # image for a user without an avatar. Unless a 'size' param is provided,
+  # Return either the avatar attached to the member, or the default gravatar
+  # image for a member without an avatar. Unless a 'size' param is provided,
   # set a default of size 48.
   #
-  # @param user [User]
+  # @param member [Member]
   # @param opts[:size] [Integer]
-  def avatar_url_for(user, opts = {})
+  def avatar_url_for(member, opts = {})
     size = opts[:size] || 48
 
-    if user.avatar.attached?
-      user.avatar.variant(resize_to_fill: [size, nil])
+    if member.avatar.attached?
+      member.avatar.variant(resize_to_fill: [size, nil])
     else
       "https://www.gravatar.com/avatar/00000000000000000000000000000000.png?s=#{size}}"
     end

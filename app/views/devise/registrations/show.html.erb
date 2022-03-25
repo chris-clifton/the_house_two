@@ -1,4 +1,4 @@
-<%= link_to user_path(current_user.username), class: "nav-link" do %>
-      <%= image_tag avatar_url_for(current_user, size: 24), class: "rounded-circle mr-1" %>
-      <%= current_user.username %>
+<%= link_to member_path(current_member.username), class: "nav-link" do %>
+      <%= image_tag avatar_url_for(current_member, size: 24), class: "rounded-circle mr-1" %>
+      <%= current_member.username %>
     <% end %>

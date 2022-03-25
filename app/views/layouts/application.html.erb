@@ -65,39 +65,40 @@
             </div>
             <nav class="mt-5 px-2 space-y-1">
               <ul>
-                <% if !user_signed_in? %>
-                  <li><%= link_to "Log In", new_user_session_path %></li>
-                <% elsif current_user.admin? %>
-                  <li><%= active_link_to text: "Home", path: root_path %></li>    
+                <% if !member_signed_in? %>
+                  <li><%= link_to "Log In", new_member_session_path %></li>
+                <% elsif current_member.captain? %>
+                  <li><%= active_link_to text: "Home", path: root_path %></li>
                   <li><%= active_link_to text: "Tasks", path: tasks_path %></li>
                   <li><%= active_link_to text: "Challenges", path: "#" %></li>
                   <li><%= active_link_to text: "Training", path: "#" %></li>
                   <li><%= active_link_to text: "Milestones", path: "#" %></li>
                   <li><%= active_link_to text: "Rewards", path: "#" %></li>
                   <li><%= active_link_to text: "Consequences", path: "#" %></li>
-                  <li><%= link_to "Sign Out", destroy_user_session_path, data: { "turbo-method": :delete } %></li>
+                  <li><%= link_to "Sign Out", destroy_member_session_path, data: { "turbo-method": :delete } %></li>
                 <% else %>
-                  <li><%= active_link_to text: "Home", path: root_path %></li>    
+                  <li><%= active_link_to text: "Home", path: root_path %></li>
                   <li><%= active_link_to text: "Tasks", path: tasks_path %></li>
                   <li><%= active_link_to text: "Challenges", path: "#" %></li>
                   <li><%= active_link_to text: "Training", path: "#" %></li>
                   <li><%= active_link_to text: "Milestones", path: "#" %></li>
                   <li><%= active_link_to text: "Rewards", path: "#" %></li>
                   <li><%= active_link_to text: "Consequences", path: "#" %></li>
-                  <li><%= link_to "Sign Out", destroy_user_session_path, data: { "turbo-method": :delete } %></li>
+                  <li><%= link_to "Sign Out", destroy_member_session_path, data: { "turbo-method": :delete } %></li>
                 <% end %>
               </ul>
             </nav>
           </div>
-          <% if user_signed_in? %>
+          <% if member_signed_in? %>
             <div class="flex-shrink-0 flex bg-gray-700 p-4">
               <a href="#" class="flex-shrink-0 group block">
                 <div class="flex items-center">
                   <div>
-                    <%= image_tag avatar_url_for(current_user), class: "rounded-full" %>
+                    <%= image_tag avatar_url_for(current_member), class: "rounded-full" %>
                   </div>
                   <div class="ml-3">
-                    <p class="text-base font-medium text-white"><%= current_user.name %></p>
+                    <p class="text-base font-medium text-white"><%= current_member.crew.name %></p>
+                    <p class="text-base font-medium text-white"><%= current_member.name %></p>
                     <p class="text-sm font-medium text-gray-400 group-hover:text-gray-300">View profile</p>
                   </div>
                 </div>
@@ -122,39 +123,40 @@
             </div>
             <nav class="mt-5 flex-1 px-2 space-y-1">
               <ul>
-                <% if !user_signed_in? %>
-                  <li><%= link_to "Log In", new_user_session_path %></li>
-                <% elsif current_user.admin? %>
-                  <li><%= active_link_to text: "Home", path: root_path %></li>    
+                <% if !member_signed_in? %>
+                  <li><%= link_to "Log In", new_member_session_path %></li>
+                <% elsif current_member.captain? %>
+                  <li><%= active_link_to text: "Home", path: root_path %></li>
                   <li><%= active_link_to text: "Tasks", path: tasks_path %></li>
                   <li><%= active_link_to text: "Challenges", path: "#" %></li>
                   <li><%= active_link_to text: "Training", path: "#" %></li>
                   <li><%= active_link_to text: "Milestones", path: "#" %></li>
                   <li><%= active_link_to text: "Rewards", path: "#" %></li>
                   <li><%= active_link_to text: "Consequences", path: "#" %></li>
-                  <li><%= link_to "Sign Out", destroy_user_session_path, data: { "turbo-method": :delete } %></li>
+                  <li><%= link_to "Sign Out", destroy_member_session_path, data: { "turbo-method": :delete } %></li>
                 <% else %>
-                  <li><%= active_link_to text: "Home", path: root_path %></li>    
+                  <li><%= active_link_to text: "Home", path: root_path %></li>
                   <li><%= active_link_to text: "Tasks", path: tasks_path %></li>
                   <li><%= active_link_to text: "Challenges", path: "#" %></li>
                   <li><%= active_link_to text: "Training", path: "#" %></li>
                   <li><%= active_link_to text: "Milestones", path: "#" %></li>
                   <li><%= active_link_to text: "Rewards", path: "#" %></li>
                   <li><%= active_link_to text: "Consequences", path: "#" %></li>
-                  <li><%= link_to "Sign Out", destroy_user_session_path, data: { "turbo-method": :delete } %></li>
+                  <li><%= link_to "Sign Out", destroy_member_session_path, data: { "turbo-method": :delete } %></li>
                 <% end %>
               </ul>
             </nav>
           </div>
-          <% if user_signed_in? %>
+          <% if member_signed_in? %>
             <div class="flex-shrink-0 flex bg-gray-700 p-4">
-              <%= link_to edit_registration_path(current_user) do %>
+              <%= link_to edit_registration_path(current_member) do %>
                 <div class="flex items-center">
                   <div>
-                    <%= image_tag avatar_url_for(current_user), class: "rounded-full" %>
+                    <%= image_tag avatar_url_for(current_member), class: "rounded-full" %>
                   </div>
                   <div class="ml-3">
-                    <p class="text-sm font-medium text-white"><%= current_user.name %></p>
+                    <p class="text-base font-medium text-white"><%= current_member.crew.name %></p>
+                    <p class="text-sm font-medium text-white"><%= current_member.name %></p>
                     <p class="text-xs font-medium text-gray-300 group-hover:text-gray-200">View profile</p>
                   </div>
                 </div>
@@ -181,6 +183,4 @@
       </div>
     </div>
   </body>
-</html>
-
 </html>

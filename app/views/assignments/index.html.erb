@@ -13,7 +13,7 @@
             <tr>
               <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">task Name</th>
               <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Assigned To</th>
-              
+
               <th scope="col" class="relative px-6 py-3">
                 <span class="sr-only">Edit</span>
               </th>
@@ -26,7 +26,7 @@
             <!-- <tr class="bg-gray-50"> -->
             <tr class="bg-white">
               <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"><%= assignment.task.name %></td>
-              <td class="text-center px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"><%= assignment.user.name %></td>
+              <td class="text-center px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"><%= assignment.member.name %></td>
               <td><%= link_to 'Edit', edit_assignment_path(assignment) %></td>
             </tr>
           <% end %>
@@ -39,7 +39,7 @@
 <br>
 
 <!-- task actions: Add task and Assign task -->
-<% if current_user.admin? %>
+<% if current_member.captain? %>
   <div class="pb-4 text-right">
     <%= link_to "Create task", new_task_path, class: "btn btn-green mx-2" %>
     <%= link_to "Assign task", new_assignment_path, class: "btn btn-blue mx-2" %>

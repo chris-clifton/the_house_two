@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
-  # Routes for users
-  devise_for :users
-  resources :users, only: [:index, :show], param: :slug
+  # Routes for members
+  devise_for :members
+  resources :members, only: [:index, :show], param: :slug
 
   resources :tasks
 

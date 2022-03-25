@@ -4,7 +4,7 @@
 
 <div class="pt-2 pb-4">
   <div class="max-w-7xl flex align-middle">
-    <%= image_tag avatar_url_for(@assignment.user, size: 50), class: "rounded-full" %>
+    <%= image_tag avatar_url_for(@assignment.member, size: 50), class: "rounded-full" %>
     <h1 class="ml-2 pt-2 text-3xl font-black text-gray-900"><%= @assignment.task.name %></h1>
   </div>
 </div>
@@ -22,10 +22,10 @@
 
     <div class="field mt-6">
       <div class="label">
-        User
+        Member
       </div>
       <div class="flex border-container">
-        <%= @assignment.user.name %>
+        <%= @assignment.member.name %>
       </div>
     </div>
 
@@ -82,13 +82,13 @@
      data-update-status-assignment-id-value="<%= @assignment.id %>"
      data-update-status-current-status-value="<%= @assignment.status %>"
      class="max-w-xl mt-6 text-right">
-  <% if current_user.admin? %>
+  <% if current_member.captain? %>
     <%= link_to 'Edit', edit_assignment_path(@assignment), class: "btn btn-gray" %>
     <%= render partial: 'update_status' %>
   <% elsif @assignment.in_progress? %>
     <div id="mark-complete-button"
          data-action="click->assignments#markPendingReview"
-         data-current-user-id="<%= current_user.id %>"
+         data-current-member-id="<%= current_member.id %>"
          data-assignment-id="<%= @assignment.id %>"
          class="btn btn-green">
       Mark Complete

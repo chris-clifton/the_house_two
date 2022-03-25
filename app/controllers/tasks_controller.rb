@@ -3,7 +3,7 @@
 # Tasks Controller
 class TasksController < ApplicationController
   before_action :set_task, only: %i[show edit update destroy]
-  before_action :check_if_admin, only: %i[new edit create update destroy]
+  before_action :check_if_captain, only: %i[new edit create update destroy]
 
   # GET /tasks or /tasks.json
   def index
@@ -76,7 +76,7 @@ class TasksController < ApplicationController
   end
 
   # TODO: Extract to application controller and document
-  def check_if_admin
-    current_user.admin?
+  def check_if_captain
+    current_member.captain?
   end
 end

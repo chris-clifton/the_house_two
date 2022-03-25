@@ -1,15 +1,15 @@
 # MVP
 ## Assignments
 - CRUD Assignments
-- Ability for admins to create chores (as a type of task) with a name and description
-- Ability for admins to assign chores (as an assignment) to a user with a reward and consequence
+- Ability for captains to create chores (as a type of task) with a name and description
+- Ability for captains to assign chores (as an assignment) to a user with a reward and consequence
 - Ability for a user to view their assignments
 - Ability for a user to mark their assignments as complete
-  - An admin can either confirm its complete, mark it failed, or put it back to :in_progress
+  - An captain can either confirm its complete, mark it failed, or put it back to :in_progress
     - When complete, the assignment's reward value should be applied to the user's reward balance value and it should be hidden from the user's "My Chores" or "My Tasks" or whatever
     - When failed, the assignment's consequence value should be applied to the user somehow
       - Most likely need to set these up like tasks where they have a status such as "pending" or "complete/served"
-      - Admins should mark the consequence as complete/served and it should be removed from the user's "My Consequences"
+      - captains should mark the consequence as complete/served and it should be removed from the user's "My Consequences"
     - When put back to in progress, allow the user to try completing the task again
 - Write tests
 
@@ -24,8 +24,8 @@
 ## Rewards
 - CRUD Rewards
 - Users should be able to see their current rewards balance, the rewards they have the opportunity to earn (open chores) and the rewards they have missed out on (failed chores)
-- Admins should be able to "deduct" from the users rewards balance (user cashed in their rewards outside the app)
-- Admins should be able to "add" to the users rewards balance
+- captains should be able to "deduct" from the users rewards balance (user cashed in their rewards outside the app)
+- captains should be able to "add" to the users rewards balance
 
 ## Organizations
 - CRUD Organizations
@@ -33,24 +33,24 @@
 
 # Phase Two
 # Assignments
-- Allow an admin to include a note when they update an assignment's status
+- Allow an captain to include a note when they update an assignment's status
   - Probably need to get rid of the 'note' column on assignments and create a table to store these in so there can be multiple notes for an assignment
   - Or should this stay there so we can add special notes for a specific assignment?
     - i.e.: assignment = feed the dog breakfast, special note = we are out of his regular food, use two cups of the other dogs food instead
 ## Training and Challenges
 - CRUD Training
 - CRUD Challenges
-- Trainings should either be a set of instructions for how to complete either a new Chore or new Challenge or, if more hands-on training is required, some sort of notice that you must receive Training from one of the admins or moderators
-- Once a user has marked their training as complete, it should be reviewable by admins the same way chores are
-- When an admin has approved the user's training, it should be unlocked/available to them as an assignable chore or challenge
+- Trainings should either be a set of instructions for how to complete either a new Chore or new Challenge or, if more hands-on training is required, some sort of notice that you must receive Training from one of the captains or moderators
+- Once a user has marked their training as complete, it should be reviewable by captains the same way chores are
+- When an captain has approved the user's training, it should be unlocked/available to them as an assignable chore or challenge
   - Will need to figure out which users are allowed to be assigned which chores/challenges depending on whether theyve completed training on it
   - Maybe a join table between users and training that has a user id, chore/challenge id, status enum and users can only be assigned chores/challenges where their training has been complete
 
 ## Consequences
 - CRUD Consequences
-- When an admin marks a chore as failed, a consequence record should be created and associated with the user
+- When an captain marks a chore as failed, a consequence record should be created and associated with the user
 - It should have three states (in progress, pending review, complete)
-- A user should be able to mark their consequence as having "been served" which an admin will approve
+- A user should be able to mark their consequence as having "been served" which an captain will approve
 - Right now consequences are setup with a value, category, and duration but maybe they should just have the option of deducting rewards points and/or a message like "30 minutes screentime" or "now you gotta walk the dog, too" or something like that which doesnt fit the rigid database structure we have currently
 
 ## Milestones
