@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 
 # Assignments controller
-# Every action should be authorized via Pundit and should be admin-only
+# Every action should be authorized via Pundit and should be captain-only
 class AssignmentsController < ApplicationController
   before_action :set_assignment, only: %i[show edit update destroy]
 
-  # All Assignment actions should be authorized for admins only
+  # All Assignment actions should be authorized for captains only
   # with the exception of mark_pending_review
-  before_action :check_if_admin, except: :mark_pending_review
+  before_action :check_if_captain, except: :mark_pending_review
 
   # GET /assignments or /assignments.json
   def index
@@ -21,7 +21,7 @@ class AssignmentsController < ApplicationController
   # GET /assignments/new
   def new
     @assignment = Assignment.new
-    @users      = User.all
+    @members    = Member.all
     @tasks      = Task.all
 
     @assignment.build_consequence
@@ -29,8 +29,8 @@ class AssignmentsController < ApplicationController
 
   # GET /assignments/1/edit
   def edit
-    @users = User.all
-    @tasks = Task.all
+    @members = Member.all
+    @tasks   = Task.all
   end
 
   # POST /assignments or /assignments.json
@@ -39,11 +39,11 @@ class AssignmentsController < ApplicationController
 
     respond_to do |format|
       if @assignment.save
-        format.html { redirect_to assignment_url(@assignment), notice: 'User task was successfully created.' }
+        format.html { redirect_to assignment_url(@assignment), notice: 'Member task was successfully created.' }
         format.json { render :show, status: :created, location: @assignment }
       else
-        @tasks = Task.all
-        @users = User.all
+        @tasks   = Task.all
+        @members = Member.all
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @assignment.errors, status: :unprocessable_entity }
       end
@@ -54,7 +54,7 @@ class AssignmentsController < ApplicationController
   def update
     respond_to do |format|
       if @assignment.update(assignment_params)
-        format.html { redirect_to assignment_url(@assignment), notice: 'User task was successfully updated.' }
+        format.html { redirect_to assignment_url(@assignment), notice: 'Member task was successfully updated.' }
         format.json { render :show, status: :ok, location: @assignment }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -69,13 +69,13 @@ class AssignmentsController < ApplicationController
     @assignment.destroy
 
     respond_to do |format|
-      format.html { redirect_to assignments_url, status: :see_other, notice: 'User task was successfully destroyed.' }
+      format.html { redirect_to assignments_url, status: :see_other, notice: 'Member task was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
 
   # PUT /assignments/:id/mark_pending_review
-  # Any user should be able to mark their own assignments as pending review
+  # Any member should be able to mark their own assignments as pending review
   # TODO: Handle rerendering the Show view with a turbo stream
   # TODO: Handle receiving an optional note
   def mark_pending_review
@@ -91,7 +91,7 @@ class AssignmentsController < ApplicationController
   end
 
   # PUT /assignments/:id/mark_in_progress
-  # Any user should be able to mark their own assignments as pending review
+  # Any member should be able to mark their own assignments as pending review
   # TODO: Handle rerendering the Show view with a turbo stream
   # TODO: Handle receiving an optional note
   def mark_in_progress
@@ -109,8 +109,8 @@ class AssignmentsController < ApplicationController
   # PUT /assignments/:id/mark_complete
   # TODO: Handle receiving an optional note
   def mark_complete
-    # TODO: add Pundit authorization here to make sure user is admin
-    #       Do I need to pass the user ID as an argument from the Stimulus
+    # TODO: add Pundit authorization here to make sure member is captain
+    #       Do I need to pass the member ID as an argument from the Stimulus
     #       controller or are we getting that for free from Devise?
     # TODO: Handle rerendering the Show view with a turbo stream
     assignment = Assignment.find(params[:assignment_id])
@@ -126,8 +126,8 @@ class AssignmentsController < ApplicationController
 
   # PUT /assignments/:id/mark_failed
   def mark_failed
-    # TODO: add Pundit authorization here to make sure user is admin
-    #       Do I need to pass the user ID as an argument from the Stimulus
+    # TODO: add Pundit authorization here to make sure member is captain
+    #       Do I need to pass the member ID as an argument from the Stimulus
     #       controller or are we getting that for free from Devise?
     # TODO: Handle rerendering the Show view with a turbo stream
     # TODO: Handle receiving an optional note
@@ -154,14 +154,14 @@ class AssignmentsController < ApplicationController
   # Do not permit the 'status' attribute as we want to handle that separately
   # so we can make use of our AASM logic.
   def assignment_params
-    params.require(:assignment).permit(:user_id, :task_id, :due_date, :reward,
+    params.require(:assignment).permit(:member_id, :task_id, :due_date, :reward,
                                        consequence_attributes: [:value,
                                                                 :duration,
                                                                 :category])
   end
 
   # TODO: Extract to application controller and document
-  def check_if_admin
-    current_user.admin?
+  def check_if_captain
+    current_member.captain?
   end
 end

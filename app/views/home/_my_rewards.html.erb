@@ -23,15 +23,15 @@
           <tbody>
             <tr class="bg-white">
               <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Current Balance</td>
-              <td class="text-center px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">$<%= current_user.rewards_balance %></td>
+              <td class="text-center px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">$<%= current_member.rewards_balance %></td>
             </tr>
             <tr class="bg-white">
               <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Available to Earn</td>
-              <td class="text-center px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">$<%= current_user.available_rewards %></td>            
+              <td class="text-center px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">$<%= current_member.available_rewards %></td>
             </tr>
             <tr class="bg-white">
               <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Missed Opportunities</td>
-              <td class="text-center px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">$<%= current_user.missed_rewards %></td>            
+              <td class="text-center px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">$<%= current_member.missed_rewards %></td>            
             </tr>
           </tbody>
         </table>

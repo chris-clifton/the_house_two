@@ -3,8 +3,9 @@
 # Assignment class
 class Assignment < ApplicationRecord
   include AASM
+  include CrewOwnable
 
-  belongs_to :user
+  belongs_to :member
   belongs_to :task
   has_one :consequence, dependent: :destroy
 
@@ -20,7 +21,7 @@ class Assignment < ApplicationRecord
     # Callback to update the Assignment anytime it's status has changed
     after_all_transitions :save_state
 
-    # An Assignment in any state can be marked as in_progress by an admin
+    # An Assignment in any state can be marked as in_progress by a captain
     # Run the :update_task_as_in_progress callback after updating the status
     # TODO: allow an optional note to be passed in, and then call an interactor
     #       passing arguments: https://github.com/aasm/aasm/issues/506
@@ -29,16 +30,16 @@ class Assignment < ApplicationRecord
     end
 
     # An Assignment in the state :in_progress can only be changed to
-    # :pending_review by a user
+    # :pending_review by a member
     # TODO: Right now we dont need any kind of callback here, but eventually
-    #       we'll want to notify admins that there are some assignments to review
+    #       we'll want to notify captains that there are some assignments to review
     # TODO: allow an optional note to be passed in, and then call an interactor
     #       passing arguments: https://github.com/aasm/aasm/issues/506
     event :mark_pending_review do
       transitions from: [:in_progress, :complete, :failed], to: :pending_review
     end
 
-    # An Assignment in any state can be marked :complete by an admin
+    # An Assignment in any state can be marked :complete by a captain
     # Run the :update_task_as_complete callback after updating the status
     # TODO: allow an optional note to be passed in, and then call an interactor
     #       passing arguments: https://github.com/aasm/aasm/issues/506
@@ -46,7 +47,7 @@ class Assignment < ApplicationRecord
       transitions from: [:pending_review, :in_progress, :failed], to: :complete
     end
 
-    # An Assignment in any state can be marked :failed by an admin
+    # An Assignment in any state can be marked :failed by a captain
     # Run the :update_task_as_failed callback after updating the status
     # TODO: allow an optional note to be passed in, and then call an interactor
     #       passing arguments: https://github.com/aasm/aasm/issues/506
@@ -58,7 +59,7 @@ class Assignment < ApplicationRecord
   private
 
   # Callback for the state machine's transition to :complete
-  # We need to apply the Assignment's reward to the user's reward_balance
+  # We need to apply the Assignment's reward to the member's reward_balance
   # and flip the reward_applied boolean to true.
   def update_task_as_complete
     AssignmentInteractions::MarkComplete.run(assignment: self)
@@ -70,11 +71,11 @@ class Assignment < ApplicationRecord
     #   # Leaving a pry here in case this ever comes up and there might be more
     #   # context in the moment
     #   #
-    #   # user.update(rewards_balance: user.rewards_balance - reward)
+    #   # member.update(rewards_balance: member.rewards_balance - reward)
     #   # update(reward_applied: false)
     #   binding.pry
     # else
-    #   user.update(rewards_balance: user.rewards_balance + reward)
+    #   member.update(rewards_balance: member.rewards_balance + reward)
     #   update(reward_applied: true)
     # end
   end
@@ -84,7 +85,7 @@ class Assignment < ApplicationRecord
   # flip the reward_applied boolean back to false
   def update_task_as_failed
     if reward_applied?
-      user.update(rewards_balance: user.rewards_balance - reward)
+      member.update(rewards_balance: member.rewards_balance - reward)
       update(reward_applied: false)
     else
       # Scenarios to get here: task was in progress but someone else had to do it
@@ -103,13 +104,13 @@ class Assignment < ApplicationRecord
   def update_task_as_in_progress
     return unless reward_applied?
 
-    user.update(rewards_balance: user.rewards_balance - reward)
+    member.update(rewards_balance: member.rewards_balance - reward)
     update(reward_applied: false)
   end
 
   # Callback for any of our state machine's transitions to ensure we always save
   # the record with the updated status
-  def save_state 
-    self.update(status: aasm.to_state) 
+  def save_state
+    self.update(status: aasm.to_state)
   end
 end

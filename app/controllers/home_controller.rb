@@ -3,10 +3,10 @@
 # Home Controller
 class HomeController < ApplicationController
   def index
-    @assignments  = current_user.open_tasks
-    @consequences = current_user.consequences
-    @challenges   = current_user.challenges
-    @trainings    = current_user.trainings
-    @milestones   = current_user.milestones
+    @assignments  = current_member.open_tasks
+    @consequences = current_member.consequences
+    @challenges   = current_member.challenges
+    @trainings    = current_member.trainings
+    @milestones   = current_member.milestones
   end
 end

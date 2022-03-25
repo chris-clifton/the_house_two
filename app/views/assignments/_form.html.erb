@@ -14,14 +14,14 @@
 
     <div class="border-b">
       <div>
-        <h3 class="text-lg leading-6 font-medium text-gray-900">Task and User Details</h3>
-        <p class="mt-1 text-sm text-gray-500">Select a task and user (required) and optionally add a due date.</p>
+        <h3 class="text-lg leading-6 font-medium text-gray-900">Task and Member Details</h3>
+        <p class="mt-1 text-sm text-gray-500">Select a task and member (required) and optionally add a due date.</p>
       </div>
 
       <div class="field mt-6">
-        <%= form.label :user_id, class: "label" %>
-        <%= form.select :user_id,
-                        options_for_select(@users.collect { |u| [u.name, u.id] }, assignment.user&.id),
+        <%= form.label :member_id, class: "label" %>
+        <%= form.select :member_id,
+                        options_for_select(@members.collect { |u| [u.name, u.id] }, assignment.member&.id),
                         { include_blank: "" },
                         class: "form-select" %>
       </div>

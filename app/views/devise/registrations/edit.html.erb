@@ -12,7 +12,7 @@
     <div data-controller="image-preview" class="border-container">
       <div class="field p-8">
         <div class="">
-            <%= image_tag avatar_url_for(current_user, size: 360), class: "rounded-full",
+            <%= image_tag avatar_url_for(current_member, size: 360), class: "rounded-full",
                                                                    data: { target: "image-preview.output" } %>
 
 

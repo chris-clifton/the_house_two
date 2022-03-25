@@ -3,7 +3,7 @@
     <h1 class="text-3xl font-black text-gray-700">Editing task: <%= @task.name %></h1>
     <div class="text-red-700">
       <!-- TODO: Soft delete tasks, pop a modal (instead of using dialog box)
-                 explaining that it unassigns these tasks from users, etc.
+                 explaining that it unassigns these tasks from members, etc.
                  Also- need to get a confirm dialog box working but havent looked
                  into how that works now with turbo/Rails 7 yet -->
         <%= link_to task_path(@task), data: { "turbo-method": :delete, "turbo-confirm": "Are you sure you want to destroy this task?" } do %>

@@ -43,8 +43,9 @@ ActiveRecord::Schema[7.0].define(version: 2022_03_13_221515) do
   end
 
   create_table "assignments", force: :cascade do |t|
-    t.bigint "user_id", null: false
+    t.bigint "member_id", null: false
     t.bigint "task_id", null: false
+    t.bigint "crew_id", null: false
     t.integer "status", default: 0, null: false
     t.integer "reward"
     t.boolean "reward_applied", default: false, null: false
@@ -52,18 +53,30 @@ ActiveRecord::Schema[7.0].define(version: 2022_03_13_221515) do
     t.text "note"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["crew_id"], name: "index_assignments_on_crew_id"
+    t.index ["member_id"], name: "index_assignments_on_member_id"
     t.index ["task_id"], name: "index_assignments_on_task_id"
-    t.index ["user_id"], name: "index_assignments_on_user_id"
   end
 
   create_table "consequences", force: :cascade do |t|
     t.bigint "assignment_id", null: false
+    t.bigint "crew_id", null: false
     t.integer "value", default: 0, null: false
     t.integer "duration", default: 0, null: false
     t.integer "category", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["assignment_id"], name: "index_consequences_on_assignment_id"
+    t.index ["crew_id"], name: "index_consequences_on_crew_id"
+  end
+
+  create_table "crews", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "slug"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_crews_on_name", unique: true
+    t.index ["slug"], name: "index_crews_on_slug", unique: true
   end
 
   create_table "friendly_id_slugs", force: :cascade do |t|
@@ -77,20 +90,13 @@ ActiveRecord::Schema[7.0].define(version: 2022_03_13_221515) do
     t.index ["sluggable_type", "sluggable_id"], name: "index_friendly_id_slugs_on_sluggable_type_and_sluggable_id"
   end
 
-  create_table "tasks", force: :cascade do |t|
-    t.string "name", default: "", null: false
-    t.text "description", default: "", null: false
-    t.integer "category", default: 0, null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["name"], name: "index_tasks_on_name", unique: true
-  end
-
-  create_table "users", force: :cascade do |t|
+  create_table "members", force: :cascade do |t|
     t.string "first_name", default: "", null: false
     t.string "last_name", default: "", null: false
     t.integer "role", default: 0, null: false
     t.integer "rewards_balance", default: 0, null: false
+    t.bigint "crew_id", null: false
+    t.string "slug"
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
@@ -100,15 +106,29 @@ ActiveRecord::Schema[7.0].define(version: 2022_03_13_221515) do
     t.datetime "last_sign_in_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "slug"
-    t.index ["email"], name: "index_users_on_email", unique: true
-    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
-    t.index ["slug"], name: "index_users_on_slug", unique: true
+    t.index ["crew_id"], name: "index_members_on_crew_id"
+    t.index ["email"], name: "index_members_on_email", unique: true
+    t.index ["reset_password_token"], name: "index_members_on_reset_password_token", unique: true
+    t.index ["slug"], name: "index_members_on_slug", unique: true
+  end
+
+  create_table "tasks", force: :cascade do |t|
+    t.string "name", default: "", null: false
+    t.text "description", default: "", null: false
+    t.integer "category", default: 0, null: false
+    t.bigint "crew_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["crew_id"], name: "index_tasks_on_crew_id"
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "assignments", "crews"
+  add_foreign_key "assignments", "members"
   add_foreign_key "assignments", "tasks"
-  add_foreign_key "assignments", "users"
   add_foreign_key "consequences", "assignments"
+  add_foreign_key "consequences", "crews"
+  add_foreign_key "members", "crews"
+  add_foreign_key "tasks", "crews"
 end

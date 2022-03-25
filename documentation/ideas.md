@@ -4,7 +4,7 @@ Brain dump of all ideas and random thoughts for this app. Many are pipe dreams o
 - Chores have rewards and penalties
 - Chores can have subtasks (dishes = load washer, run washer, dry dishes, put away)
 - Chores can have types (checkout chores = all craft stuff put away, switches on chargers)
-- When an admin has marked a chore complete, should alert the user next time they login congratulating them for completing the chore, displaying the reward for the chore, and their current balance
+- When an captain has marked a chore complete, should alert the user next time they login congratulating them for completing the chore, displaying the reward for the chore, and their current balance
 
 # Rules
 - Rules have penalties and no rewards (not getting ready when asked the first time, not cleaning up after yourself, etc.)
@@ -52,9 +52,9 @@ Brain dump of all ideas and random thoughts for this app. Many are pipe dreams o
 - queen bee and the beehive
 - pirate ship and the crew
 - space station and its crew
-- organizatios should be able to set their own roles (admin, moderator, user)
+- organizatios should be able to set their own roles (captain, moderator, user)
   - maybe they want to put the 16 year old in charge
-  - maybe its Grandpa and kids, mom 
+  - maybe its Grandpa and kids, mom
 - should allow themes where different roles have different titles/possibly even avatars
   - Pirates: officers can be the parents, jr officers for moderators, pirates/crew
   - Space stations: officers, jr officers, crew/astronauts?
@@ -65,28 +65,28 @@ Brain dump of all ideas and random thoughts for this app. Many are pipe dreams o
   - basically just call them whatever noun their role is for that theme in front of the feature
 - set the organization owner up with an animated setup guide
   - let them pick how many users they want to setup with
-  - assign those users roles (admin, moderator, user)
-    - describe to admins how the roles work and what they are able to do
+  - assign those users roles (captain, moderator, user)
+    - describe to captains how the roles work and what they are able to do
       - editable permissions with sensible defaults
-        - maybe defined permissions groups the admin can choose for his organization (the way IAM works)
+        - maybe defined permissions groups the captain can choose for his organization (the way IAM works)
     - how should moderators work?
-      - admins should have to sign off on moderators "completing" things
+      - captains should have to sign off on moderators "completing" things
       - moderators can approve a regular user's task to be complete
-      - only admins can cash in rewards
-        - allow for an admin to review anything a moderator did and override it
+      - only captains can cash in rewards
+        - allow for an captain to review anything a moderator did and override it
       **maybe this doesnt belong in the cool setup wizard but I got here from thinking about moderators**
-      **but a scheduled report to the admins is a separate feature that sounds like a potential good idea**
-      - maybe admins get a weekly report that says has sections like:
+      **but a scheduled report to the captains is a separate feature that sounds like a potential good idea**
+      - maybe captains get a weekly report that says has sections like:
         - "pending review"
           - "user" waiting for your approval on these things
           - "moderator" approved each "user" of doing these things
           - give them two buttons to either confirm or review which takes them to the app and lists all this stuff out
-          - when an admin either "confirms" the email report or confirms after they've reviewed the report, thats when things move from pending review to complete, and thats when rewards are applied (which only admins can do)
+          - when an captain either "confirms" the email report or confirms after they've reviewed the report, thats when things move from pending review to complete, and thats when rewards are applied (which only captains can do)
             - if this becomes a thing, we should set a preference on the review period- do they want daily, weekly, or monthly reports?
             - obviously allow them to approve anything whenever they want and that does not appear in the "pending review" section of the report
         - summary
           - just a list of everything everyone got done that report cycle, include stuff like rewqrds balances, rewards balances that were "cashed in", consqeunces (served/outstanding), milestones and training, etc.
-     
+
 - assign those users some kind of title if they want (mom, grandpa, uncle steve, bob, pop, whatever)
   - doesnt have anything to do with the role
 - let them pick a theme
@@ -106,7 +106,7 @@ Brain dump of all ideas and random thoughts for this app. Many are pipe dreams o
   - how this data could be used against them if the app were for whatever reason breached/sold
 - when a user deletes their account, they should be given the option to delete literally everything from out database
   - just make it known like "hey! we can deactivate your account for your convenience if you ever sign back up (which means we have to keep your data), but we can really really delete it for your privacy if youre sure youre done here"
-    - require admin password either way
+    - require captain password either way
 
 
 # STI
@@ -119,11 +119,11 @@ Brain dump of all ideas and random thoughts for this app. Many are pipe dreams o
 - Unnecessary and you cant draw so you'd be paying for this
 
 # Messages system
-- When a user marks a task complete (changing its status to :pending_review), send a message to the admins/moderators to let them know they have a task to review
-- When an admin/moderator has reviewed the task and marks it either complete, failed, or in progress, send a message to the user to let them know the new status of their task
-  - If the task was marked complete by an admin/moderator, congratulate the user on a job well done and show them the reward they got for that task and their rewards balance
+- When a user marks a task complete (changing its status to :pending_review), send a message to the captains/moderators to let them know they have a task to review
+- When an captain/moderator has reviewed the task and marks it either complete, failed, or in progress, send a message to the user to let them know the new status of their task
+  - If the task was marked complete by an captain/moderator, congratulate the user on a job well done and show them the reward they got for that task and their rewards balance
   - If the task was marked failed, let the user know the rewards they have missed out on and their current balance
   - If the task was changed back to in progress, let the user know they need to take another shot at it
-  - Provide the ability for the admin/moderator to leave a custom message
+  - Provide the ability for the captain/moderator to leave a custom message
     - back to inprogress example: "Almost finished the dishes but you forgot to start the machine"
     - marked failed example: "Didnt feed the dog and I already did it"

@@ -1,13 +1,14 @@
 # frozen_string_literal: true
 
-# User class
-class User < ApplicationRecord
+# Member class
+class Member < ApplicationRecord
   # Default devise modules
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
   has_many :tasks, through: :assignments
   has_many :assignments
+  belongs_to :crew
 
   has_one_attached :avatar
 
@@ -16,9 +17,9 @@ class User < ApplicationRecord
   extend FriendlyId
   friendly_id :name, use: :slugged
 
-  enum role: [:user, :moderator, :admin]
+  enum role: [:member, :captain]
 
-  # Return a collection of all a user's assignments that have the status
+  # Return a collection of all a member's assignments that have the status
   # of either :in_progress or :pending_review
   #
   # @return [Assignedtask collection]
@@ -26,7 +27,7 @@ class User < ApplicationRecord
     assignments.where(status: [:in_progress, :pending_review])
   end
 
-  # Return the sum of all a user's assignments reward's values for all
+  # Return the sum of all a member's assignments reward's values for all
   # open tasks (status is either :in_progress or :pending_review)
   #
   # @return [Integer]
@@ -34,7 +35,7 @@ class User < ApplicationRecord
     open_tasks.map { |assignment| assignment.reward }.inject(0, :+)
   end
 
-  # Return the sum of all a user's assignments rewards values
+  # Return the sum of all a member's assignments rewards values
   # where the status is :failed
   #
   # @return [Integer]
