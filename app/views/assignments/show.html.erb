@@ -1,13 +1,16 @@
 <!-- TODO: Convert to turbo stream, remove the Stimulus stuff and the
            messages container -->
-<div id="assignment-show-message-container" class="max-w-xl"></div>
-
 <div class="pt-2 pb-4">
   <div class="max-w-7xl flex align-middle">
     <%= image_tag avatar_url_for(@assignment.member, size: 50), class: "rounded-full" %>
     <h1 class="ml-2 pt-2 text-3xl font-black text-gray-900"><%= @assignment.task.name %></h1>
   </div>
 </div>
+
+<!-- TODO: Currently I am not updating this partial after a Captain changes the
+           assignment's status, but when we convert to turbo stream that will
+           all be taken care of for us -->
+<%= render partial: 'status_indicator', locals: { assignment: @assignment } %>
 
 <div class="max-w-xl">
   <div class="border-b">
@@ -54,7 +57,7 @@
 
   <div class="border-b">
     <div class="mt-6">
-      <h3 class="text-lg leading-6 font-medium text-gray-900">Reward</h3>
+      <h3 class="text-lg leading-6 font-medium text-gray-900">Reward Points</h3>
     </div>
 
     <div class="flex mt-6 border-container">
@@ -77,21 +80,23 @@
   </div>
 </div>
 
-<!-- TODO: Handle displaying these buttons a little more elegantly -->
-<div data-controller="update-status"
+<!-- TODO: Handle displaying these buttons a little more elegantly
+           Also want to give members the ability to mark something back to
+           in progress if they realize the assignment wasnt completed correctly
+           but they already submitted it for review. This will be a lot easier
+           after converting this view to a turbo stream so just going to leave
+           it as a TODO for now -->
+<div id="update-status-buttons-container"
+     data-controller="update-status"
      data-update-status-assignment-id-value="<%= @assignment.id %>"
      data-update-status-current-status-value="<%= @assignment.status %>"
      class="max-w-xl mt-6 text-right">
   <% if current_member.captain? %>
     <%= link_to 'Edit', edit_assignment_path(@assignment), class: "btn btn-gray" %>
-    <%= render partial: 'update_status' %>
+    <%= render partial: 'captain_update_status' %>
   <% elsif @assignment.in_progress? %>
-    <div id="mark-complete-button"
-         data-action="click->assignments#markPendingReview"
-         data-current-member-id="<%= current_member.id %>"
-         data-assignment-id="<%= @assignment.id %>"
-         class="btn btn-green">
-      Mark Complete
+    <div data-target="update-status.memberUpdateStatusButton">
+    <%= render partial: 'member_update_status', locals: { current_member: current_member, assignment: @assignment } %>
     </div>
   <% end %>
 </div>

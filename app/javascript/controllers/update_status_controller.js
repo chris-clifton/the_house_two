@@ -3,12 +3,18 @@ import {Controller} from "@hotwired/stimulus"
 // Connects to data-controller="update-status"
 export default class extends Controller {
   static targets = [
-    "modal",
+    "captainModal",
+    "memberModal",
     "overlay",
     "closeButton",
     "cancelButton",
     "updateButton",
-    "radioButtonFieldSet"
+    "radioButtonFieldSet",
+    "memberAcknowledgeInput",
+    "memberSubmitButton",
+    "memberModalBodyContainer",
+    "memberModalSuccessBodyContainer",
+    "memberMarkCompleteButton"
   ]
 
   static values = {
@@ -17,17 +23,37 @@ export default class extends Controller {
     currentStatus: String
   }
 
-  // If a member clicks the "Update Status" button, open the modal
+  // If a captain clicks the "Update Status" button, open the modal
   // If they click the "Cancel" button, the "X" button, or anywhere on the
   // modal overlay, close the modal then de-select all inputs and clear the
   // flash message from it.
-  toggleModal() {
-    if (this.modalTarget.classList.contains("hidden")) {
-      this.modalTarget.classList.remove("hidden");
+  toggleCaptainModal() {
+    if (this.captainModalTarget.classList.contains("hidden")) {
+      this.captainModalTarget.classList.remove("hidden");
       this.selectCurrentStatus();
     } else {
-      this.modalTarget.classList.add("hidden");
+      this.captainModalTarget.classList.add("hidden");
       this.deselectAllInputs();
+      this.clearFlashMessage();
+    }
+  }
+
+  // When a member clicks the "Mark Complete" button, open a modal
+  // that asks them if the assignment is totally complete. Make the user
+  // acknowledge they understand what complete means and, if they agree,
+  // enable the Submit button. If the modal is closed, check to see if
+  // we need to reset the acknowledge input and make sure the Submit
+  // button is disabled.
+  toggleMemberModal() {
+    if (this.memberModalTarget.classList.contains("hidden")) {
+      this.memberModalTarget.classList.remove("hidden");
+    } else {
+      if (this.hasMemberSubmitButtonTarget) {
+        this.memberSubmitButtonTarget.disabled = true;
+        this.memberAcknowledgeInputTarget.checked = false;
+      }
+
+      this.memberModalTarget.classList.add("hidden");
       this.clearFlashMessage();
     }
   }
@@ -57,13 +83,56 @@ export default class extends Controller {
         const html = `<div class="border-container-green"><i class="fas fa-bell"></i><span class="ml-2">${data.message}</span></div>`
         flashNoticeContainer.innerHTML = html;
 
-        // document.getElementById("status-container").innerHTML = 'Pending Review'
-
-        // document.getElementById("mark-complete-button").classList.add("hidden");
+        // Update the view's status container and set the data attribute for currentStatusValue
+        document.getElementById("status-container").innerHTML = this.humanize(selectedStatus);
+        document.getElementById("update-status-buttons-container").setAttribute("data-update-status-current-status-value", selectedStatus)
       }
     });
   }
 
+  // Send a PUT request to the Rails controller to update the status of this
+  // assignment to 'pending_review'. On success, update the modal by showing
+  // the success body container and hiding the original modal body.
+  memberMarkComplete() {
+    const selectedStatus = 'pending_review';
+    const url = `/assignments/${this.assignmentIdValue}/mark_pending_review`;
+    const csrf = document.querySelector("meta[name='csrf-token']").getAttribute("content");
+
+    fetch(url, {
+      method: 'PUT',
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+        "X-CSRF-Token": csrf
+      }
+    }).then(response => response.json()).then(data => {
+      const flashNoticeContainer = document.getElementById("update-status-modal-message-container");
+
+      if (!!data.error) {
+        const html = `<div class="border-container-red"><i class="fas fa-exclamation-circle fa-lg"></i><span class="ml-2">${data.message}</span></div>`
+        flashNoticeContainer.innerHTML = html;
+      } else {
+        // Update the view's status container and set the data attribute for currentStatusValue
+        document.getElementById("status-container").innerHTML = this.humanize(selectedStatus);
+        document.getElementById("update-status-buttons-container").setAttribute("data-update-status-current-status-value", selectedStatus);
+
+        this.memberModalBodyContainerTarget.innerHTML = "";
+        this.memberModalSuccessBodyContainerTarget.classList.remove("hidden");
+        this.memberMarkCompleteButtonTarget.classList.add("hidden");
+      }
+    });
+  }
+
+  // Only enable the Submit button if the user has checked the Acknowledge input
+  validateMemberAcknowledgement() {
+    if (this.memberAcknowledgeInputTarget.checked === true) {
+      this.memberSubmitButtonTarget.disabled = false;
+    } else {
+      this.memberSubmitButtonTarget.disabled = true;
+    }
+  }
+
+  // Find all radio button inputs and make sure they have been deselected
   deselectAllInputs() {
     const radioButton = this.radioButtonFieldSetTarget.querySelector('input:checked');
 
@@ -72,16 +141,28 @@ export default class extends Controller {
     }
   }
 
+  // Remove the innerHTML from the modal message container
   clearFlashMessage() {
     document.getElementById("update-status-modal-message-container").innerHTML = '';
   }
 
+  // Find the radio button for whichever state the assignment's status is
+  // currently in and make sure it is checked
   selectCurrentStatus() {
     let radioToSelect = this.radioButtonFieldSetTarget.querySelector(`input[value=${this.currentStatusValue}`);
     radioToSelect.checked = true;
   }
 
-  checkRadioButton() {}
-
-  uncheckRadioButton() {}
+  // TODO: Figure out how Stimulus controller inheritance works in Rails 7 and move this
+  //       to something like an application_controller.js so we can use this
+  //       in other Stimulus controllers
+  //       From DHH: https://github.com/hotwired/stimulus-rails/issues/78
+  // Humanize a string to replace underscores with whitespace
+  // and capitalize the first letter of the first word
+  humanize(str) {
+    return str
+      .replace(/^[\s_]+|[\s_]+$/g, '')
+      .replace(/[_\s]+/g, ' ')
+      .replace(/^[a-z]/, function(m) { return m.toUpperCase(); });
+  }
 }

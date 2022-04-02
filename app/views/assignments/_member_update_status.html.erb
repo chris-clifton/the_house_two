@@ -1,0 +1,92 @@
+<button data-action="click->update-status#toggleMemberModal"
+        data-target="update-status.memberMarkCompleteButton"
+        class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:ml-3 sm:w-auto sm:text-sm">
+  Mark Complete
+</button>
+
+<div data-target="update-status.memberModal"
+     class="fixed z-10 inset-0 overflow-y-auto hidden"
+     aria-labelledby="modal-title"
+     role="dialog"
+     aria-modal="true">
+  <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+    <div data-action="click->update-status#toggleMemberModal" class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
+    <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+    <div class="relative inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full sm:p-6">
+      <div class="hidden sm:block absolute top-0 right-0 pt-4 pr-4">
+        <button data-action="click->update-status#toggleMemberModal"
+                type="button"
+                class="bg-white rounded-md text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+          <span class="sr-only">Close</span>
+          <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+      <div class="sm:flex sm:items-start">
+        <div class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
+          <span class="rounded-lg inline-flex p-3 bg-green-50 text-green-700">
+            <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+            </svg>
+          </span>
+        </div>
+        <div data-target="update-status.memberModalSuccessBodyContainer" class="hidden">
+          <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+            <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">Marked Complete!</h3>
+            <div id="update-status-modal-message-container" class="py-2"></div>
+            <div class="mt-4">
+              <p class="text-sm text-gray-900 text-left mb-2x">
+                Well done! A Captain has been notified to review the completion of this assignment!
+              </p>
+            </div>
+          </div>
+        </div>
+        <div data-target="update-status.memberModalBodyContainer">
+          <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+            <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">Mark Complete</h3>
+            <div id="update-status-modal-message-container" class="py-2"></div>
+            <div class="mt-4">
+              <p class="text-sm text-gray-900 text-left mb-2x">
+                By clicking Submit, I acknowledge the following:
+              </p>
+              <ul class="text-sm text-gray-900 text-left list-disc list-inside">
+                <li>I have completed this assignment to the best of my abilities</li>
+                <li>I have double checked that it is complete</li>
+                <li>I am ready for the assignment to be reviewed by a Captain</li>
+              </ul>
+              <br/>
+
+              <div class="relative flex items-start">
+                <div class="flex items-center h-5">
+                  <input data-target="update-status.memberAcknowledgeInput"
+                        data-action="update-status#validateMemberAcknowledgement"
+                        type="checkbox"
+                        class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded">
+                </div>
+                <div class="ml-3">
+                  <label class="font-medium text-gray-700">I understand and this assignment is complete.</label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse">
+            <button data-action="update-status#memberMarkComplete"
+                    data-target="update-status.memberSubmitButton"
+                    type="button"
+                    class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 disabled:bg-indigo-300 disabled:curor-default text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:ml-3 sm:w-auto sm:text-sm"
+                    disabled>
+              Submit
+            </button>
+            <button data-action="click->update-status#toggleMemberModal"
+                    type="button"
+                    class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:w-auto sm:text-sm">
+              Cancel
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

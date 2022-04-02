@@ -81,7 +81,7 @@ class AssignmentsController < ApplicationController
   def mark_pending_review
     assignment = Assignment.find(params[:assignment_id])
 
-    if assignment.mark_pending_review
+    if assignment.mark_pending_review(current_member)
       data = { message: "This #{assignment.task.category.capitalize} has been marked as 'Pending Review' and is awaiting approval" }
     else
       data = { message: "There was an error updating this #{assignment.task.category.capitalize}" }
@@ -97,7 +97,7 @@ class AssignmentsController < ApplicationController
   def mark_in_progress
     assignment = Assignment.find(params[:assignment_id])
 
-    if assignment.mark_in_progress
+    if assignment.mark_in_progress(current_member)
       data = { message: "This #{assignment.task.category.capitalize} has been marked as 'In Progress'" }
     else
       data = { message: "There was an error updating this #{assignment.task.category.capitalize}" }
@@ -115,7 +115,7 @@ class AssignmentsController < ApplicationController
     # TODO: Handle rerendering the Show view with a turbo stream
     assignment = Assignment.find(params[:assignment_id])
 
-    if assignment.mark_complete
+    if assignment.mark_complete(current_member)
       data = { message: "This #{assignment.task.category.capitalize} has been marked as 'Complete'" }
     else
       data = { message: "There was an error updating this #{assignment.task.category.capitalize}" }
@@ -133,7 +133,7 @@ class AssignmentsController < ApplicationController
     # TODO: Handle receiving an optional note
     assignment = Assignment.find(params[:assignment_id])
 
-    if assignment.mark_failed
+    if assignment.mark_failed(current_member)
       data = { message: "This #{assignment.task.category.capitalize} has been marked as 'Failed'" }
     else
       data = { message: "There was an error updating this #{assignment.task.category.capitalize}" }
