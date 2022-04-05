@@ -72,4 +72,9 @@ Rails.application.configure do
 
   # config :vips lib for image processing
   config.active_storage.variant_processor = :vips
+
+  # Tailwind uses a Just-in-time compiler to only add classes to the CSS that are
+  # being used in your application. This requires specifying an additional path
+  # to listen for any (Just-in-time) changes.
+  config.hotwire_livereload.listen_paths << Rails.root.join("app/assets/builds")
 end
