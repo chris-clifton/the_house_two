@@ -127,3 +127,16 @@ Brain dump of all ideas and random thoughts for this app. Many are pipe dreams o
   - Provide the ability for the captain/moderator to leave a custom message
     - back to inprogress example: "Almost finished the dishes but you forgot to start the machine"
     - marked failed example: "Didnt feed the dog and I already did it"
+
+# Crews
+- Since we have the concept of crews now, maybe we want members to be able to belong to other crews
+  - User story: Pippa can belong to the crew at my house, but maybe Jessey's parents want to setup a crew and Pippa can belong there too
+  - Need some kind of Crew select option
+  - This would mean we'd need to allow crew owners to have and belong to multiple crews
+- Crews should have the ability to have an avatar just like users and this should be displayed on the users nav bar
+  - use the yellow house as a default
+  - maybe that icon needs to change to something more crew like and less house like?
+- Ability to edit crew name
+- Crew#show
+  - show members, captains etc.
+  - stats on who is earning the most, completing the most chores, current rewards balances, etc.

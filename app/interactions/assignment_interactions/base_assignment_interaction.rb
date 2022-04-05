@@ -14,6 +14,7 @@ module AssignmentInteractions
 
     def initialize(options)
       @assignment = options[:assignment]
+      @member     = options[:member]
     end
 
     # Was the interaction successful?
@@ -34,5 +35,25 @@ module AssignmentInteractions
     end
 
     private_class_method :new
+
+    private
+
+    # Subtract the assignment's reward value from the member's rewards_balance
+    # and set the assignment's reward_applied value to false
+    def rollback_rewards
+      ActiveRecord::Base.transaction do
+        @assignment.member.update(rewards_balance: @assignment.member.rewards_balance - @assignment.reward)
+        @assignment.update(reward_applied: false)
+      end
+    end
+
+    # Add the assignment's reward value to the member's rewards_balance
+    # and set the assignment's reward_applied value to true
+    def apply_rewards
+      ActiveRecord::Base.transaction do
+        @assignment.member.update(rewards_balance: @assignment.member.rewards_balance + @assignment.reward)
+        @assignment.update(reward_applied: true)
+      end
+    end
   end
 end
