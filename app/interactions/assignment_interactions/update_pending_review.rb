@@ -9,10 +9,6 @@
 module AssignmentInteractions
   # Class to handle logic after an Assignment has been updated to :pending_review
   class UpdatePendingReview < BaseAssignmentInteraction
-    def initialize(options)
-      super
-    end
-
     # This should be the only public method in the interaction
     def run
       if @assignment.reward_applied?

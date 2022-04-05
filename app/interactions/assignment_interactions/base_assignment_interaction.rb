@@ -41,15 +41,19 @@ module AssignmentInteractions
     # Subtract the assignment's reward value from the member's rewards_balance
     # and set the assignment's reward_applied value to false
     def rollback_rewards
-      @assignment.member.update(rewards_balance: @assignment.member.rewards_balance - @assignment.reward)
-      @assignment.update(reward_applied: false)
+      ActiveRecord::Base.transaction do
+        @assignment.member.update(rewards_balance: @assignment.member.rewards_balance - @assignment.reward)
+        @assignment.update(reward_applied: false)
+      end
     end
 
     # Add the assignment's reward value to the member's rewards_balance
     # and set the assignment's reward_applied value to true
     def apply_rewards
-      @assignment.member.update(rewards_balance: @assignment.member.rewards_balance + @assignment.reward)
-      @assignment.update(reward_applied: true)
+      ActiveRecord::Base.transaction do
+        @assignment.member.update(rewards_balance: @assignment.member.rewards_balance + @assignment.reward)
+        @assignment.update(reward_applied: true)
+      end
     end
   end
 end

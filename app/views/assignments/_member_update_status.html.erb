@@ -55,28 +55,13 @@
                 <li>I have double checked that it is complete</li>
                 <li>I am ready for the assignment to be reviewed by a Captain</li>
               </ul>
-              <br/>
-
-              <div class="relative flex items-start">
-                <div class="flex items-center h-5">
-                  <input data-target="update-status.memberAcknowledgeInput"
-                        data-action="update-status#validateMemberAcknowledgement"
-                        type="checkbox"
-                        class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded">
-                </div>
-                <div class="ml-3">
-                  <label class="font-medium text-gray-700">I understand and this assignment is complete.</label>
-                </div>
-              </div>
             </div>
           </div>
 
           <div class="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse">
             <button data-action="update-status#memberMarkComplete"
-                    data-target="update-status.memberSubmitButton"
                     type="button"
-                    class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 disabled:bg-indigo-300 disabled:curor-default text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:ml-3 sm:w-auto sm:text-sm"
-                    disabled>
+                    class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:ml-3 sm:w-auto sm:text-sm">
               Submit
             </button>
             <button data-action="click->update-status#toggleMemberModal"

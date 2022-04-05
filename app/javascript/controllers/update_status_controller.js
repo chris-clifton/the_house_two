@@ -10,8 +10,6 @@ export default class extends Controller {
     "cancelButton",
     "updateButton",
     "radioButtonFieldSet",
-    "memberAcknowledgeInput",
-    "memberSubmitButton",
     "memberModalBodyContainer",
     "memberModalSuccessBodyContainer",
     "memberMarkCompleteButton"
@@ -38,30 +36,23 @@ export default class extends Controller {
     }
   }
 
-  // When a member clicks the "Mark Complete" button, open a modal
-  // that asks them if the assignment is totally complete. Make the user
-  // acknowledge they understand what complete means and, if they agree,
-  // enable the Submit button. If the modal is closed, check to see if
-  // we need to reset the acknowledge input and make sure the Submit
-  // button is disabled.
+  // When a member clicks the "Mark Complete" button, open the modal which
+  // allows the member to change the Assignment's status to "pending_review".
+  // If they click the Cancel button, the X in the corner, or the modal overlay
+  // then close the modal.
   toggleMemberModal() {
     if (this.memberModalTarget.classList.contains("hidden")) {
       this.memberModalTarget.classList.remove("hidden");
     } else {
-      if (this.hasMemberSubmitButtonTarget) {
-        this.memberSubmitButtonTarget.disabled = true;
-        this.memberAcknowledgeInputTarget.checked = false;
-      }
-
       this.memberModalTarget.classList.add("hidden");
       this.clearFlashMessage();
     }
   }
 
-  // When a member has clicked the "Submit" button, get the value of the selected
+  // When a Captain has clicked the "Submit" button, get the value of the selected
   // status, concatenate it to the URL so we can send a PUT request to the right
   // Rails action. Update the modal with a flash message once complete.
-  submitUpdate() {
+  captainSubmitUpdate() {
     const selectedStatus = document.querySelector('input[name = "selected-status"]:checked').value;
     const url = `/assignments/${this.assignmentIdValue}/mark_${selectedStatus}`;
     const csrf = document.querySelector("meta[name='csrf-token']").getAttribute("content");
@@ -121,15 +112,6 @@ export default class extends Controller {
         this.memberMarkCompleteButtonTarget.classList.add("hidden");
       }
     });
-  }
-
-  // Only enable the Submit button if the user has checked the Acknowledge input
-  validateMemberAcknowledgement() {
-    if (this.memberAcknowledgeInputTarget.checked === true) {
-      this.memberSubmitButtonTarget.disabled = false;
-    } else {
-      this.memberSubmitButtonTarget.disabled = true;
-    }
   }
 
   // Find all radio button inputs and make sure they have been deselected

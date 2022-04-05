@@ -9,10 +9,6 @@
 module AssignmentInteractions
   # Class to handle logic after an Assignment has been updated to :complete
   class UpdateComplete < BaseAssignmentInteraction
-    def initialize(options)
-      super
-    end
-
     # This should be the only public method in the interaction
     def run
       # TODO: Use pundit authorization and raise a pundit error
