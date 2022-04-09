@@ -75,13 +75,15 @@ class AssignmentsController < ApplicationController
   end
 
   # PUT /assignments/:id/mark_pending_review
-  # Any member should be able to mark their own assignments as pending review
+  # TODO: Pundit policy - Any member should be able to mark their own assignments
+  #                       as pending review (if its current status is in_progress)
+  #                       and captains should be able to do whatever they want
   # TODO: Handle rerendering the Show view with a turbo stream
   # TODO: Handle receiving an optional note
   def mark_pending_review
     assignment = Assignment.find(params[:assignment_id])
 
-    if assignment.mark_pending_review(current_member)
+    if assignment.mark_pending_review
       data = { message: "This #{assignment.task.category.capitalize} has been marked as 'Pending Review' and is awaiting approval" }
     else
       data = { message: "There was an error updating this #{assignment.task.category.capitalize}" }
@@ -91,13 +93,15 @@ class AssignmentsController < ApplicationController
   end
 
   # PUT /assignments/:id/mark_in_progress
-  # Any member should be able to mark their own assignments as pending review
+  # TODO: Pundit policy - Any member should be able to mark their own assignments
+  #                       as in_progress (if its current status is pending_review)
+  #                       and captains should be able to do whatever they want
   # TODO: Handle rerendering the Show view with a turbo stream
   # TODO: Handle receiving an optional note
   def mark_in_progress
     assignment = Assignment.find(params[:assignment_id])
 
-    if assignment.mark_in_progress(current_member)
+    if assignment.mark_in_progress
       data = { message: "This #{assignment.task.category.capitalize} has been marked as 'In Progress'" }
     else
       data = { message: "There was an error updating this #{assignment.task.category.capitalize}" }
@@ -107,15 +111,13 @@ class AssignmentsController < ApplicationController
   end
 
   # PUT /assignments/:id/mark_complete
+  # TODO: add Pundit authorization here to make sure member is captain
+  # TODO: Handle rerendering the Show view with a turbo stream
   # TODO: Handle receiving an optional note
   def mark_complete
-    # TODO: add Pundit authorization here to make sure member is captain
-    #       Do I need to pass the member ID as an argument from the Stimulus
-    #       controller or are we getting that for free from Devise?
-    # TODO: Handle rerendering the Show view with a turbo stream
     assignment = Assignment.find(params[:assignment_id])
 
-    if assignment.mark_complete(current_member)
+    if assignment.mark_complete
       data = { message: "This #{assignment.task.category.capitalize} has been marked as 'Complete'" }
     else
       data = { message: "There was an error updating this #{assignment.task.category.capitalize}" }
@@ -125,15 +127,13 @@ class AssignmentsController < ApplicationController
   end
 
   # PUT /assignments/:id/mark_failed
+  # TODO: add Pundit authorization here to make sure member is captain
+  # TODO: Handle rerendering the Show view with a turbo stream
+  # TODO: Handle receiving an optional note
   def mark_failed
-    # TODO: add Pundit authorization here to make sure member is captain
-    #       Do I need to pass the member ID as an argument from the Stimulus
-    #       controller or are we getting that for free from Devise?
-    # TODO: Handle rerendering the Show view with a turbo stream
-    # TODO: Handle receiving an optional note
     assignment = Assignment.find(params[:assignment_id])
 
-    if assignment.mark_failed(current_member)
+    if assignment.mark_failed
       data = { message: "This #{assignment.task.category.capitalize} has been marked as 'Failed'" }
     else
       data = { message: "There was an error updating this #{assignment.task.category.capitalize}" }
