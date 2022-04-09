@@ -9,76 +9,101 @@ class Assignment < ApplicationRecord
   belongs_to :task
   has_one :consequence, dependent: :destroy
 
+  validates_presence_of :member_id, :task_id, :crew_id, :status
+
   accepts_nested_attributes_for :consequence
 
   enum status: [:in_progress, :pending_review, :complete, :failed]
 
   # Use a state machine to handle the transitions between an Assignment's statuses
-  aasm column: :status, enum: true do
+  aasm :status, enum: true do
     state :in_progress, initial: true
     state :pending_review, :complete, :failed
 
     # Callback to update the Assignment anytime it's status has changed
     after_all_transitions :save_state
 
-    # An Assignment in any state can be marked as in_progress by a member
-    # Run the :update_task_as_in_progress callback after updating the status
-    event :mark_in_progress, :after => Proc.new { |member| update_task_as_in_progress(member) } do
-      transitions from: [:pending_review, :complete, :failed], to: :in_progress
+    # An Assignment in any state can be marked as :in_progress by a captain
+    # and a member should be able to mark their assignment back to :in_progress
+    # if it's current status is :pending_review
+    # Run the :update_in_progress callback after updating the status
+    # TODO: Replace the check in the guard with a Pundit policy so we only have
+    #       to define who can do what in one place
+    event :mark_in_progress, after: :update_in_progress do
+      transitions from: [:pending_review], to: :in_progress
+
+      transitions from: [:complete, :failed], to: :in_progress do
+        guard do
+          Current.member.captain?
+        end
+      end
     end
 
-    # An Assignment in the state :in_progress can only be changed to
-    # :pending_review by a member
-    event :mark_pending_review, :after => Proc.new { |member| update_task_as_pending_review(member) } do
-      transitions from: [:in_progress, :complete, :failed], to: :pending_review
+    # An Assignment in any state can be marked as :pending_review by a captain
+    # and a member should be able to make this change if it's current status
+    # is :in_progress
+    # TODO: Replace the check in the guard with a Pundit policy so we only have
+    #       to define who can do what in one place
+    event :mark_pending_review, after: :update_pending_review do
+      transitions from: [:in_progress], to: :pending_review
+
+      transitions from: [:complete, :failed], to: :pending_review do
+        guard do
+          Current.member.captain?
+        end
+      end
     end
 
     # An Assignment in any state can be marked :complete by a captain
-    # Run the :update_task_as_complete callback after updating the status
-    event :mark_complete, :after => Proc.new { |member| update_task_as_complete(member) } do
-      transitions from: [:pending_review, :in_progress, :failed], to: :complete
+    # Run the :update_complete callback after updating the status
+    # TODO: Replace the check in the guard with a Pundit policy so we only have
+    #       to define who can do what in one place
+    event :mark_complete, after: :update_complete do
+      transitions from: [:pending_review, :in_progress, :failed], to: :complete do
+        guard do
+          Current.member.captain?
+        end
+      end
     end
 
     # An Assignment in any state can be marked :failed by a captain
-    # Run the :update_task_as_failed callback after updating the status
-    event :mark_failed, :after => Proc.new { |member| update_task_as_failed(member) } do
-      transitions from: [:in_progress, :pending_review, :complete], to: :failed
+    # Run the :update_failed callback after updating the status
+    # TODO: Replace the check in the guard with a Pundit policy so we only have
+    #       to define who can do what in one place
+    event :mark_failed, after: :update_failed do
+      transitions from: [:in_progress, :pending_review, :complete], to: :failed do
+        guard do
+          Current.member.captain?
+        end
+      end
     end
   end
 
   private
 
   # Callback for the state machine's transition to :complete
-  #
-  # @param member [Member]
-  def update_task_as_complete(member)
-    AssignmentInteractions::UpdateComplete.run(assignment: self, member: member)
+  def update_complete
+    AssignmentInteractions::UpdateComplete.run(assignment: self, member: Current.member)
   end
 
   # Callback for the state machine's transition to :failed
-  #
-  # @param member [Member]
-  def update_task_as_failed(member)
-    AssignmentInteractions::UpdateFailed.run(assignment: self, member: member)
+  def update_failed
+    AssignmentInteractions::UpdateFailed.run(assignment: self, member: Current.member)
   end
 
   # Callback for the state machine's transition to :in_progress
-  #
-  # @param member [Member]
-  def update_task_as_in_progress(member)
-    AssignmentInteractions::UpdateInProgress.run(assignment: self, member: member)
+  def update_in_progress
+    AssignmentInteractions::UpdateInProgress.run(assignment: self, member: Current.member)
   end
 
   # Callback for the state machine's transition to :pending_review
-  #
-  # @param member [Member]
-  def update_task_as_pending_review(member)
-    AssignmentInteractions::UpdatePendingReview.run(assignment: self, member: member)
+  def update_pending_review
+    AssignmentInteractions::UpdatePendingReview.run(assignment: self, member: Current.member)
   end
 
   # Callback for any of our state machine's transitions to ensure we always save
   # the record with the updated status
   def save_state
-    self.update(status: aasm.to_state)
+    self.update(status: aasm(:status).to_state)
   end
 end

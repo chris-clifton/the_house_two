@@ -50,10 +50,21 @@ export default class extends Controller {
   }
 
   // When a Captain has clicked the "Submit" button, get the value of the selected
-  // status, concatenate it to the URL so we can send a PUT request to the right
-  // Rails action. Update the modal with a flash message once complete.
+  // status. If the assignment is already in that state, let the user know, and
+  // return early. Else, concatenate the selected status to the URL so we can send
+  // a PUT request to the right Rails action. Update the modal with a flash message
+  // once complete.
   captainSubmitUpdate() {
+    const flashNoticeContainer = document.getElementById("update-status-modal-message-container");
     const selectedStatus = document.querySelector('input[name = "selected-status"]:checked').value;
+
+    if(selectedStatus === this.currentStatusValue) {
+      let message = `This chore is already in the state '${this.humanize(selectedStatus)}'`;
+      let html = `<div class="border-container-yellow"><i class="fas fa-exclamation-circle fa-lg"></i><span class="ml-2">${message}</span></div>`;
+      flashNoticeContainer.innerHTML = html;
+      return;
+    }
+
     const url = `/assignments/${this.assignmentIdValue}/mark_${selectedStatus}`;
     const csrf = document.querySelector("meta[name='csrf-token']").getAttribute("content");
 
@@ -65,8 +76,6 @@ export default class extends Controller {
         "X-CSRF-Token": csrf
       }
     }).then(response => response.json()).then(data => {
-      const flashNoticeContainer = document.getElementById("update-status-modal-message-container");
-
       if (!!data.error) {
         const html = `<div class="border-container-red"><i class="fas fa-exclamation-circle fa-lg"></i><span class="ml-2">${data.message}</span></div>`
         flashNoticeContainer.innerHTML = html;

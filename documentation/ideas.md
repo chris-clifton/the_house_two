@@ -1,5 +1,8 @@
 Brain dump of all ideas and random thoughts for this app. Many are pipe dreams or feature requests from the little users.
 
+# Tasks
+- Ability to set a default reward value and automatically fill forms with that value to make it easier on the captain
+
 # Chores
 - Chores have rewards and penalties
 - Chores can have subtasks (dishes = load washer, run washer, dry dishes, put away)
