@@ -73,7 +73,7 @@
     </div>
 
     <div class="flex w-full mt-6 border-container">
-      <%= @assignment.consequence.pretty_consequence %>
+      <%= @assignment.consequence.pretty_consequence if @assignment.consequence %>
     </div>
 
     <br/>

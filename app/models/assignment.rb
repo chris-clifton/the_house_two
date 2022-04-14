@@ -25,55 +25,45 @@ class Assignment < ApplicationRecord
 
     # An Assignment in any state can be marked as :in_progress by a captain
     # and a member should be able to mark their assignment back to :in_progress
-    # if it's current status is :pending_review
+    # if it's current status is :pending_review (taken care of by Pundit)
     # Run the :update_in_progress callback after updating the status
-    # TODO: Replace the check in the guard with a Pundit policy so we only have
-    #       to define who can do what in one place
     event :mark_in_progress, after: :update_in_progress do
       transitions from: [:pending_review], to: :in_progress
 
       transitions from: [:complete, :failed], to: :in_progress do
         guard do
-          Current.member.captain?
+          Pundit.policy(Current.member, self).mark_in_progress?
         end
       end
     end
 
     # An Assignment in any state can be marked as :pending_review by a captain
     # and a member should be able to make this change if it's current status
-    # is :in_progress
-    # TODO: Replace the check in the guard with a Pundit policy so we only have
-    #       to define who can do what in one place
+    # is :in_progress (taken care of by Pundit)
     event :mark_pending_review, after: :update_pending_review do
-      transitions from: [:in_progress], to: :pending_review
-
-      transitions from: [:complete, :failed], to: :pending_review do
+      transitions from: [:in_progress, :complete, :failed], to: :pending_review do
         guard do
-          Current.member.captain?
+          Pundit.policy(Current.member, self).mark_pending_review?
         end
       end
     end
 
     # An Assignment in any state can be marked :complete by a captain
     # Run the :update_complete callback after updating the status
-    # TODO: Replace the check in the guard with a Pundit policy so we only have
-    #       to define who can do what in one place
     event :mark_complete, after: :update_complete do
       transitions from: [:pending_review, :in_progress, :failed], to: :complete do
         guard do
-          Current.member.captain?
+          Pundit.policy(Current.member, self).mark_complete?
         end
       end
     end
 
     # An Assignment in any state can be marked :failed by a captain
     # Run the :update_failed callback after updating the status
-    # TODO: Replace the check in the guard with a Pundit policy so we only have
-    #       to define who can do what in one place
     event :mark_failed, after: :update_failed do
       transitions from: [:in_progress, :pending_review, :complete], to: :failed do
         guard do
-          Current.member.captain?
+          Pundit.policy(Current.member, self).mark_failed?
         end
       end
     end

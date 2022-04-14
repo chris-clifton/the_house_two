@@ -3,6 +3,8 @@
 # Get off my back Rubocop, we all know what this is
 class ApplicationController < ActionController::Base
   include SetAuthenticatedMember
+  include Pundit::Authorization
+
   before_action :authenticate_member!
 
   before_action :configure_permitted_paramters, if: :devise_controller?
