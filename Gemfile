@@ -56,6 +56,7 @@ gem "image_processing", "~> 1.2"
 
 # Authentication and authorization
 gem 'devise'
+gem 'pundit'
 
 # UI Gems
 gem 'friendly_id'

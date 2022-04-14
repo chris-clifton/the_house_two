@@ -80,6 +80,10 @@ RSpec.configure do |config|
 
   # factory_bot gem testing configurations
   config.include FactoryBot::Syntax::Methods
+
+  # Include Devise test helpers so we can sign in/out members
+  # https://github.com/heartcombo/devise/wiki/How-To:-sign-in-and-out-a-user-in-Request-type-specs-(specs-tagged-with-type:-:request)#1-simple-approach
+  config.include Devise::Test::IntegrationHelpers, type: :request
 end
 
 # Configure shoulda matchers
