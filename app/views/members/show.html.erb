@@ -1,4 +1,106 @@
-<div>
-  <h1 class="font-bold text-4xl">Member#show</h1>
-  <p>Find me in app/views/member/show.html.erb</p>
+<div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-4">
+  <!-- Column 1: single column span -->
+  <div class="text-lg font-bold text-left p-4 pr-12 col-span-1 md:border-solid md:border-r-2">
+    <div class="pt-2 pb-4 max-w-7xl rounded-lg">
+      <%= image_tag avatar_url_for(@member, size: 360), class: "rounded-full mb-4 mx-auto" %>
+
+      <h1 class="text-3xl font-black text-gray-800 text-left"><%= @member.name %></h1>
+      <h3 class="text-gray-600 text-left"><%= @member.role.capitalize %></h3>
+
+      <div class="text-gray-600 text-left mb-4">
+        Reward Balance: <%= decorate_rewards_balance(@member.rewards_balance).html_safe %>
+      </div>
+
+      <% if Current.member == @member %>
+        <div class="btn btn-gray w-full text-center justify-center mb-4">
+          <%= link_to "Edit Profile", edit_registration_path(@member), class: "text-center" %>
+        </div>
+      <% end %>
+
+      <!-- Change this to a pundit policy in case we do something like add moderators -->
+      <% if Current.member.captain? %>
+        <div class="btn btn-blue w-full text-center justify-center mb-8">
+          <%= link_to "Update Rewards Balance", "#", class: "text-center" %>
+        </div>
+      <% end %>
+
+      <div class="border border-b"></div>
+
+      <!-- Member stats -->
+      <div class="mt-8">
+        <div class="mb-2 text-sm">
+          <span class="rounded-lg inline-flex p-3 bg-green-50 text-green-700 align-middle">
+            <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+            </svg>
+          </span>
+          <span class="align-middle">6 tasks Complete</span>
+        </div>
+        <div class="text-sm inline">
+          <span class="rounded-lg inline-flex p-3 bg-red-50 text-red-700 align-middle">
+            <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+            </svg>
+          </span>
+          <span class="align-middle">2 tasks Failed</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Column 2: double column span -->
+  <div class="text-lg font-semibold text-left p-4 rounded-lg col-span-2">
+    <!-- Member open assignments -->
+    <div class="pt-2 pb-4">
+      <div class="max-w-7xl">
+        <h1 class="text-3xl text-gray-800">Open Tasks</h1>
+      </div>
+    </div>
+
+    <div class="flex flex-col mb-4">
+      <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+        <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+          <% if @member.open_assignments.present? %>
+            <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+              <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                  <tr>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Task Name</th>
+                    <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                    <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Reward</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% @member.open_assignments.each do |assignment| %>
+                    <tr class="bg-white">
+                      <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800"><%= link_to assignment.task.name, assignment_path(assignment) %></td>
+                      <td class="text-center px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800"><%= assignment.status.humanize %></td>
+                                            <td class="text-center px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800"><%= assignment.reward %></td>
+                    </tr>
+                  <% end %>
+                </tbody>
+              </table>
+            </div>
+          <% else %>
+            <div class="flex flex-col mb-4">
+              <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+                <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+                  <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg bg-white p-6 flex justify-between">
+                    <div class="pt-2 text-lg font-normal">
+                      No open assignments
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+    <div class="text-lg font-normal">
+      What else should go in here? Some way to view old tasks, history of rewards points transactions, maybe open training/challenges?
+      <br/><br/>
+      It might be fun (I say this without considering what it would take to actually implement) to do some kind of color-coded calendar grid visual for rewards earned/lost similar to what github does when you view a users contributions. We at least want some kind of "history" for tasks, rewards, consequences, etc.
+    </div>
+  </div>
 </div>

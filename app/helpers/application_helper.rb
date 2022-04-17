@@ -72,6 +72,8 @@ module ApplicationHelper
       nav_menu_rewards_html(active)
     when 'Consequences'
       nav_menu_consequences_html(active)
+    when 'Members'
+      nav_menu_members_html(active)
     else
       'update set_mobile_html case statement'
     end
@@ -187,11 +189,41 @@ module ApplicationHelper
       <span class="#{active_text_color(active)}">Rewards</span>)
   end
 
+  # Return a string containing the HTML we want inside the nav active_link_to
+  # for the members link. Set the text color based on its active status
+  #
+  # @params active [Boolean]
+  # @return [String]
+  def nav_menu_members_html(active)
+    %(<svg xmlns="http://www.w3.org/2000/svg" class="#{active_text_color(active)} mr-4 flex-shrink-0 h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+       <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+     </svg>
+     <span class="#{active_text_color(active)}">Members</span>)
+  end
+
   # Change the text color depending on the active state
   #
   # @params active [Boolean]
   # @return [String]
   def active_text_color(active)
     active ? 'text-gray-300' : 'text-gray-400'
+  end
+
+  # If the rewards balance is positive, return a span with the balance in green.
+  # If the rewards balance is negative, return a span with the rewards balance
+  # in red and make sure to include the negative sign.
+  # Else, if the balance is 0, return a span that will inherit the text color
+  # of whatever container its in.
+  #
+  # @param balance [Integer]
+  # @return [String]
+  def decorate_rewards_balance(balance)
+    if balance > 0
+      %(<span class="text-green-600">#{balance}</span>)
+    elsif balance < 0
+      %(<span class="text-red-600">-#{balance.abs}</span>)
+    else
+      %(<span>#{balance}</span>)
+    end
   end
 end

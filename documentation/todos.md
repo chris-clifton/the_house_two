@@ -15,6 +15,9 @@ Tests
 UI
 - Need to decide on a color palette (https://huemint.com/website-3/)
   - red, green, yellow might do well to represent the states of tasks and stuff, then just need some kind of primary color for the application shell
+- Buttons
+  - Need to refactor button styling to match the ones we're using from Tailwind UI so they are all the same
+  - Refactor custom Tailwind classes
 
 Fix the mobile menu
 - Currently has an issue where the overlay element I'm "hiding" isn't actually getting hidden correctly and it prevents the user from being able to click on anything underneath it.
