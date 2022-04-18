@@ -23,7 +23,7 @@ class Member < ApplicationRecord
   # of either :in_progress or :pending_review
   #
   # @return [Assignedtask collection]
-  def open_tasks
+  def open_assignments
     assignments.where(status: [:in_progress, :pending_review])
   end
 
@@ -32,7 +32,7 @@ class Member < ApplicationRecord
   #
   # @return [Integer]
   def available_rewards
-    open_tasks.map { |assignment| assignment.reward }.inject(0, :+)
+    open_assignments.map { |assignment| assignment.reward }.inject(0, :+)
   end
 
   # Return the sum of all a member's assignments rewards values

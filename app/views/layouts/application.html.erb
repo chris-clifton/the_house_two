@@ -78,6 +78,7 @@
                   <li><%= active_link_to text: "Milestones", path: "#" %></li>
                   <li><%= active_link_to text: "Rewards", path: "#" %></li>
                   <li><%= active_link_to text: "Consequences", path: "#" %></li>
+                  <li><%= active_link_to text: "Members", path: members_path %></li>
                   <!-- TODO: just sticking these in here, poorly styled, so I can click around more easily -->
                   <li><%= link_to 'Assignments', assignments_path, class: "text-white" %></li>
                   <li><%= link_to "Sign Out", destroy_member_session_path, data: { "turbo-method": :delete }, class: "text-white" %></li>
@@ -89,6 +90,7 @@
                   <li><%= active_link_to text: "Milestones", path: "#" %></li>
                   <li><%= active_link_to text: "Rewards", path: "#" %></li>
                   <li><%= active_link_to text: "Consequences", path: "#" %></li>
+                  <li><%= active_link_to text: "Members", path: members_path %></li>
                   <!-- TODO: just sticking these in here, poorly styled, so I can click around more easily -->
                   <li><%= link_to 'Assignments', assignments_path, class: "text-white" %></li>
                   <li><%= link_to "Sign Out", destroy_member_session_path, data: { "turbo-method": :delete }, class: "text-white" %></li>
@@ -140,6 +142,7 @@
                   <li><%= active_link_to text: "Milestones", path: "#" %></li>
                   <li><%= active_link_to text: "Rewards", path: "#" %></li>
                   <li><%= active_link_to text: "Consequences", path: "#" %></li>
+                  <li><%= active_link_to text: "Members", path: members_path %></li>
                   <!-- TODO: just sticking these in here, poorly styled, so I can click around more easily -->
                   <li><%= link_to 'Assignments', assignments_path, class: "text-white" %></li>
                   <li><%= link_to "Sign Out", destroy_member_session_path, data: { "turbo-method": :delete }, class: "text-white" %></li>
@@ -151,6 +154,7 @@
                   <li><%= active_link_to text: "Milestones", path: "#" %></li>
                   <li><%= active_link_to text: "Rewards", path: "#" %></li>
                   <li><%= active_link_to text: "Consequences", path: "#" %></li>
+                  <li><%= active_link_to text: "Members", path: members_path %></li>
                   <!-- TODO: just sticking these in here, poorly styled, so I can click around more easily -->
                   <li><%= link_to 'Assignments', assignments_path, class: "text-white" %></li>
                   <li><%= link_to "Sign Out", destroy_member_session_path, data: { "turbo-method": :delete }, class: "text-white" %></li>
@@ -160,7 +164,7 @@
           </div>
           <% if member_signed_in? %>
             <div class="flex-shrink-0 flex bg-gray-700 p-4">
-              <%= link_to edit_registration_path(current_member) do %>
+              <%= link_to member_path(current_member) do %>
                 <div class="flex items-center">
                   <div>
                     <%= image_tag avatar_url_for(current_member), class: "rounded-full" %>

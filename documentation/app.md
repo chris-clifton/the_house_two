@@ -14,3 +14,6 @@ Reference: https://dev.to/mmccall10/tailwind-enter-leave-transition-effects-with
 # Devise and Turbo
 Apparently don't get along out of the box, particularly with error messages so this is the fix to handle turbo streams
 https://gorails.com/episodes/devise-hotwire-turbo
+
+# SVGs
+https://heroicons.com/

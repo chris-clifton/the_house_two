@@ -31,6 +31,9 @@ Brain dump of all ideas and random thoughts for this app. Many are pipe dreams o
 
 # Rewards
 - Switch to only using points, but the points can be cashed in for other things (tickets at chuckecheese)
+- Need to track rewards transactions separately from the members table
+  - we want to have a history of each transaction (+/-) on the rewards column and be able to relate it to an assignment/consequence/challenge/etc., as well as allow a captain to arbitrarily add/subtract points (ie: member spends $15 at target, member does something bad that wasn't explicitly a consequence)
+  - maybe a rewards_transactions table?
 
 # Assignments
 - Tasks that must be completed in a certain time frame (feeding dog breakfast, taking out trash after dinner, etc.)
@@ -143,3 +146,7 @@ Brain dump of all ideas and random thoughts for this app. Many are pipe dreams o
 - Crew#show
   - show members, captains etc.
   - stats on who is earning the most, completing the most chores, current rewards balances, etc.
+
+# Achievements
+- Create achievements for reaching certain milestones
+- Display them as badges on members#show (ie github)

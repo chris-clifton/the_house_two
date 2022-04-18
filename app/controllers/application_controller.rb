@@ -19,6 +19,15 @@ class ApplicationController < ActionController::Base
     new_member_session_path
   end
 
+  # Pundit is going to call current_user in order to authorize whatever policy
+  # but we are using members and not users so we need to override the pundit_user
+  # Ref: https://github.com/varvet/pundit#customize-pundit-user
+  #
+  # @return [Member]
+  def pundit_user
+    Current.member
+  end
+
   protected
 
   def configure_permitted_paramters
